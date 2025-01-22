@@ -1,16 +1,19 @@
 public class Task {
     private String taskName;
     private boolean isDone;
+    protected String taskType;
+
     public Task(String taskName) {
         this.taskName = taskName;
         this.isDone = false;
+        this.taskType = "this is not suppose to happen";
     }
 
-    public String getTask() {
+    protected String getTask() {
         return this.taskName;
     }
 
-    public String getDone() {
+    protected String getDone() {
         if (this.isDone) {
             return "[X]";
         }
@@ -23,5 +26,14 @@ public class Task {
 
     public void markUndone() {
         this.isDone = false;
+    }
+
+    protected String getTaskType() {
+        return "[" + this.taskType + "]";
+    }
+
+    public String toString() {
+        String ret =  getTaskType() + getDone() + " " + getTask();
+        return ret;
     }
 }
