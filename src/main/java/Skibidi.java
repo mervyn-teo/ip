@@ -18,8 +18,8 @@ public class Skibidi {
         System.out.println(greet);
 
         ArrayList<Task> listItems = new ArrayList<>();
+        Scanner in = new Scanner(System.in);
         while (true) {
-            Scanner in = new Scanner(System.in);
             String userChoice = in.nextLine();
 
             switch (userChoice) {
@@ -57,21 +57,21 @@ public class Skibidi {
                         case "todo": {
                             // expects no time
                             listItems.add(new toDo(splitUserchoice[1]));
-                            System.out.println(spacer + "\n     added: " + listItems.get(listItems.size() - 1) + "\n     there are " + listItems.size() + " tasks in the list now \n" + spacer);
+                            System.out.println(spacer + "\n     added: " + listItems.get(listItems.size() - 1) + "\n     there are " + listItems.size() + " tasks in the list now\n" + spacer);
                             break;
                         }
                         case "event": {
                             // expects 1 from and  1 to
                             String[] splitted = splitUserchoice[1].split("/from | /to ", 3);
                             listItems.add(new Event(splitted[0], splitted[1], splitted[2]));
-                            System.out.println(spacer + "\n     added: " + listItems.get(listItems.size() - 1) + "\n     there are " + listItems.size() + " tasks in the list now \n"  + spacer);
+                            System.out.println(spacer + "\n     added: " + listItems.get(listItems.size() - 1) + "\n     there are " + listItems.size() + " tasks in the list now\n"  + spacer);
                             break;
                         }
                         case "deadline": {
                             // expects 1 deadline time
                             String[] splitTaskTime = splitUserchoice[1].split("/by ", 2);
                             listItems.add(new Deadline(splitTaskTime[0], splitTaskTime[1]));
-                            System.out.println(spacer + "\n     added: " + listItems.get(listItems.size() - 1) + "\n     there are " + listItems.size() + " tasks in the list now \n"  + spacer);
+                            System.out.println(spacer + "\n     added: " + listItems.get(listItems.size() - 1) + "\n     there are " + listItems.size() + " tasks in the list now\n"  + spacer);
                             break;
                         }
                         default: {

@@ -1,0 +1,9 @@
+todo Clean room
+event Party /from 6pm /to 11pm
+deadline Homework /by 9am
+list
+mark 2
+unmark 2
+mark 1
+list
+bye
