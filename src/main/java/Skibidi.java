@@ -106,6 +106,20 @@ public class Skibidi {
                                 }
                                 break;
                             }
+                            case "delete": {
+                                if (splitUserchoice.length != 2 ) {
+                                    System.out.println("     You must've mistyped something my dear skibidi");
+                                } else {
+                                    int index = Integer.parseInt(splitUserchoice[1]) - 1;
+                                    if (index < 0 || index >= listItems.size()) {
+                                        System.out.println("     This is out of bounds my skibidi!");
+                                    } else {
+                                        listItems.remove(index);
+                                        System.out.println("     Deleted: " + listItems.get(index) + "\n     there are " + listItems.size() + " tasks in the list now");
+                                    }
+                                }
+                                break;
+                            }
                             default: {
                                 System.out.println("     I dont understand what you mean my dear skibidi");
                             }
