@@ -1,5 +1,8 @@
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -65,7 +68,7 @@ public class Skibidi {
             // convert user choice to enum
             commandType userChoiceEnum = commandType.valueOf(userChoice.split(" ")[0].toUpperCase());
 
-            String[] splitUserchoice = userChoice.split(" ", 2);
+            String[] splitUserChoice = userChoice.split(" ", 2);
             switch (userChoiceEnum) {
                 case BYE: {
                     System.out.println(bye);
@@ -84,14 +87,14 @@ public class Skibidi {
                         break;
                 }
                 case MARK: {
-                    if (splitUserchoice.length != 2){
+                    if (splitUserChoice.length != 2){
                         System.out.println("     Double check what you want from me skibidi bop bop!");
                         break;
                     }
-                    if (Integer.parseInt(splitUserchoice[1]) > listItems.size() | Integer.parseInt(splitUserchoice[1]) <= 0) {
+                    if (Integer.parseInt(splitUserChoice[1]) > listItems.size() | Integer.parseInt(splitUserChoice[1]) <= 0) {
                         System.out.println("     This is out of bounds my skibidi!");
                     } else {
-                        Task taskItem = listItems.get(Integer.parseInt(splitUserchoice[1]) - 1);
+                        Task taskItem = listItems.get(Integer.parseInt(splitUserChoice[1]) - 1);
                         taskItem.markDone();
                         System.out.println("     Yes this is marked as done skibidi yes yes\n     " + taskItem);
                         saveList(listItems);
@@ -99,14 +102,14 @@ public class Skibidi {
                     break;
                 }
                 case UNMARK: {
-                    if (splitUserchoice.length != 2){
+                    if (splitUserChoice.length != 2){
                         System.out.println("     Double check what you want from me skibidi bop bop!");
                         break;
                     }
-                    if (Integer.parseInt(splitUserchoice[1]) > listItems.size() | Integer.parseInt(splitUserchoice[1]) <= 0) {
+                    if (Integer.parseInt(splitUserChoice[1]) > listItems.size() | Integer.parseInt(splitUserChoice[1]) <= 0) {
                         System.out.println("     This is out of bounds my skibidi!");
                     } else {
-                        Task taskItem = listItems.get(Integer.parseInt(splitUserchoice[1]) - 1);
+                        Task taskItem = listItems.get(Integer.parseInt(splitUserChoice[1]) - 1);
                         taskItem.markUndone();
                         System.out.println("     skibidi this is marked as undone skibidi bop bop\n     " + taskItem);
                         saveList(listItems);
@@ -115,10 +118,10 @@ public class Skibidi {
                 }
                 case TODO: {
                     // expects no time
-                    if (splitUserchoice.length == 1) {
+                    if (splitUserChoice.length == 1) {
                         System.out.println("     Empty todos are not very skibidi!");
                     } else {
-                        listItems.add(new toDo(splitUserchoice[1]));
+                        listItems.add(new toDo(splitUserChoice[1]));
                         System.out.println("     added: " + listItems.get(listItems.size() - 1) + "\n     there are " + listItems.size() + " tasks in the list now");
                         saveList(listItems);
                     }
@@ -126,11 +129,11 @@ public class Skibidi {
                 }
                 case EVENT: {
                     // expects 1 from and  1 to
-                    if (splitUserchoice.length != 2){
+                    if (splitUserChoice.length != 2){
                         System.out.println("     no name no date? bop bop!");
                         break;
                     }
-                    String[] splitted = splitUserchoice[1].split("/from | /to ", 3);
+                    String[] splitted = splitUserChoice[1].split("/from | /to ", 3);
                     if (splitted.length != 3) {
                         System.out.println("     Double check what you want from me skibidi bop bop!");
                     } else {
@@ -142,11 +145,11 @@ public class Skibidi {
                 }
                 case DEADLINE: {
                     // expects 1 deadline time
-                    if (splitUserchoice.length != 2){
+                    if (splitUserChoice.length != 2){
                         System.out.println("     no name no date? bop bop!");
                         break;
                     }
-                    String[] splitTaskTime = splitUserchoice[1].split("/by ", 2);
+                    String[] splitTaskTime = splitUserChoice[1].split("/by ", 2);
                     if (splitTaskTime.length != 2) {
                         System.out.println("     Double check what you want from me skibidi bop bop!");
                     } else {
@@ -157,15 +160,15 @@ public class Skibidi {
                     break;
                 }
                 case DELETE: {
-                    if (splitUserchoice.length != 2 ) {
+                    if (splitUserChoice.length != 2 ) {
                         System.out.println("     You must've mistyped something my dear skibidi");
                     } else {
-                        int index = Integer.parseInt(splitUserchoice[1]) - 1;
+                        int index = Integer.parseInt(splitUserChoice[1]) - 1;
                         if (index < 0 || index >= listItems.size()) {
                             System.out.println("     This is out of bounds my skibidi!");
                         } else {
+                            System.out.println("     Deleted: " + listItems.get(index) + "\n     there are " + (listItems.size() - 1) + " tasks in the list now");
                             listItems.remove(index);
-                            System.out.println("     Deleted: " + listItems.get(index) + "\n     there are " + listItems.size() + " tasks in the list now");
                             saveList(listItems);
                         }
                     }
@@ -181,6 +184,14 @@ public class Skibidi {
 
     private static void saveList(ArrayList<Task> listItems) {
         ObjectMapper objectMapper = new ObjectMapper();
+        if (listItems.isEmpty()) {
+            try {
+                Files.deleteIfExists(Paths.get("saved_list.json"));
+                Files.createFile(Paths.get("saved_list.json"));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
         try {
             objectMapper.writeValue(new File("saved_list.json"), listItems);
         } catch (IOException e) {
