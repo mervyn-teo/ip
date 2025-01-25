@@ -1,6 +1,11 @@
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class Event extends Task {
     private String from;
     private String to;
+    public Event() {
+        super.taskType = "E";
+    }
 
     public Event(String taskName, String from, String to) {
         super(taskName);
@@ -8,15 +13,8 @@ public class Event extends Task {
         this.to = to;
         super.taskType = "E";
     }
-    public String getFrom() {
-        return this.from;
-    }
-    public String getTo() {
-        return this.to;
-    }
 
     public String toString() {
-        String ret = super.getTaskType() + super.getDone() + " " + super.getTask() + "(from: " + this.from + " to: " + this.to + ")";
-        return ret;
+        return super.getTaskType() + super.getDone() + " " + super.getTask() + "(from: " + this.from + " to: " + this.to + ")";
     }
 }

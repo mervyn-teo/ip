@@ -1,6 +1,13 @@
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
+
 public class Deadline extends Task
 {
     private String deadline;
+
+    public Deadline() {
+        super.taskType = "D";
+    }
 
     public Deadline(String taskName, String deadline) {
         super(taskName);
@@ -8,12 +15,7 @@ public class Deadline extends Task
         this.deadline = deadline;
     }
 
-    public String getDeadline() {
-        return this.deadline;
-    }
-
     public String toString() {
-        String ret =  super.getTaskType() + super.getDone() + " " + super.getTask() + "(by: " + this.deadline + ")";
-        return ret;
+        return super.getTaskType() + super.getDone() + " " + super.getTask() + "(by: " + this.deadline + ")";
     }
 }

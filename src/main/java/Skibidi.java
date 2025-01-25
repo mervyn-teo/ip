@@ -1,5 +1,12 @@
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
+
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.PropertyAccessor;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class Skibidi {
     private enum commandType {
@@ -14,6 +21,9 @@ public class Skibidi {
         UNKNOWN
     }
     public static void main(String[] args) {
+        // inits
+        File myObj = new File("saved_list.json");
+        ArrayList<Task> listItems = new ArrayList<>();
         String greet = """
                     ____________________________________________________________
                      Hello! I'm Mr. Skibidi
@@ -22,9 +32,25 @@ public class Skibidi {
                 """;
         String bye = "     Skibidi bop bop!";
         String spacer = "    ____________________________________________________________";
+
+        // check if file exists
+        if (!myObj.exists()) {
+            try {
+                if (myObj.createNewFile()) {
+                    // creates file
+                    System.out.println("File created: " + myObj.getName());
+                }
+            } catch (IOException e) {
+                System.out.println("An error occurred.");
+                e.printStackTrace();
+            }
+        } else {
+            //file exists
+            listItems = loadList();
+        }
+
         System.out.println(greet);
 
-        ArrayList<Task> listItems = new ArrayList<>();
         Scanner in = new Scanner(System.in);
 
         while (true) {
@@ -68,6 +94,7 @@ public class Skibidi {
                         Task taskItem = listItems.get(Integer.parseInt(splitUserchoice[1]) - 1);
                         taskItem.markDone();
                         System.out.println("     Yes this is marked as done skibidi yes yes\n     " + taskItem);
+                        saveList(listItems);
                     }
                     break;
                 }
@@ -82,6 +109,7 @@ public class Skibidi {
                         Task taskItem = listItems.get(Integer.parseInt(splitUserchoice[1]) - 1);
                         taskItem.markUndone();
                         System.out.println("     skibidi this is marked as undone skibidi bop bop\n     " + taskItem);
+                        saveList(listItems);
                     }
                     break;
                 }
@@ -92,6 +120,7 @@ public class Skibidi {
                     } else {
                         listItems.add(new toDo(splitUserchoice[1]));
                         System.out.println("     added: " + listItems.get(listItems.size() - 1) + "\n     there are " + listItems.size() + " tasks in the list now");
+                        saveList(listItems);
                     }
                     break;
                 }
@@ -107,6 +136,7 @@ public class Skibidi {
                     } else {
                         listItems.add(new Event(splitted[0], splitted[1], splitted[2]));
                         System.out.println("     added: " + listItems.get(listItems.size() - 1) + "\n     there are " + listItems.size() + " tasks in the list now");
+                        saveList(listItems);
                     }
                     break;
                 }
@@ -122,6 +152,7 @@ public class Skibidi {
                     } else {
                         listItems.add(new Deadline(splitTaskTime[0], splitTaskTime[1]));
                         System.out.println("     added: " + listItems.get(listItems.size() - 1) + "\n     there are " + listItems.size() + " tasks in the list now");
+                        saveList(listItems);
                     }
                     break;
                 }
@@ -135,6 +166,7 @@ public class Skibidi {
                         } else {
                             listItems.remove(index);
                             System.out.println("     Deleted: " + listItems.get(index) + "\n     there are " + listItems.size() + " tasks in the list now");
+                            saveList(listItems);
                         }
                     }
                     break;
@@ -145,5 +177,26 @@ public class Skibidi {
             }
             System.out.println(spacer);
         }
+    }
+
+    private static void saveList(ArrayList<Task> listItems) {
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            objectMapper.writeValue(new File("saved_list.json"), listItems);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static ArrayList<Task> loadList() {
+        ObjectMapper objectMapper = new ObjectMapper();
+        File myObj = new File("saved_list.json");
+        ArrayList<Task> savedList = new ArrayList<>();
+        try {
+            objectMapper.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
+            savedList = objectMapper.readValue(myObj, new TypeReference<ArrayList<Task>>() {});
+        } catch (IOException ignored) {
+        }
+        return savedList;
     }
 }
