@@ -1,5 +1,7 @@
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -7,6 +9,7 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 public class Skibidi {
     private enum commandType {
@@ -134,7 +137,21 @@ public class Skibidi {
                     if (splitted.length != 3) {
                         System.out.println("     Double check what you want from me skibidi bop bop!");
                     } else {
-                        listItems.add(new Event(splitted[0], splitted[1], splitted[2]));
+                        LocalDate fromDate;
+                        LocalDate toDate;
+                        try {
+                            fromDate = LocalDate.parse(splitted[1]);
+                            toDate = LocalDate.parse(splitted[2]);
+                        } catch (DateTimeParseException e) {
+                            System.out.println("     Your date format must be YYYY-MM-DD");
+                            break;
+                        }
+
+                        if (fromDate.isAfter(toDate)) {
+                            System.out.println("     To date cannot be before from date skib skib!");
+                            break;
+                        }
+                        listItems.add(new Event(splitted[0], fromDate, toDate));
                         System.out.println("     added: " + listItems.get(listItems.size() - 1) + "\n     there are " + listItems.size() + " tasks in the list now");
                         saveList(listItems);
                     }
@@ -150,7 +167,14 @@ public class Skibidi {
                     if (splitTaskTime.length != 2) {
                         System.out.println("     Double check what you want from me skibidi bop bop!");
                     } else {
-                        listItems.add(new Deadline(splitTaskTime[0], splitTaskTime[1]));
+                        LocalDate byDate;
+                        try {
+                            byDate = LocalDate.parse(splitTaskTime[1]);
+                        } catch (DateTimeParseException e) {
+                            System.out.println("     Your date format must be YYYY-MM-DD");
+                            break;
+                        }
+                        listItems.add(new Deadline(splitTaskTime[0], byDate));
                         System.out.println("     added: " + listItems.get(listItems.size() - 1) + "\n     there are " + listItems.size() + " tasks in the list now");
                         saveList(listItems);
                     }
@@ -164,8 +188,8 @@ public class Skibidi {
                         if (index < 0 || index >= listItems.size()) {
                             System.out.println("     This is out of bounds my skibidi!");
                         } else {
+                            System.out.println("     Deleted: " + listItems.get(index) + "\n     there are " + (listItems.size() - 1) + " tasks in the list now");
                             listItems.remove(index);
-                            System.out.println("     Deleted: " + listItems.get(index) + "\n     there are " + listItems.size() + " tasks in the list now");
                             saveList(listItems);
                         }
                     }
@@ -182,6 +206,7 @@ public class Skibidi {
     private static void saveList(ArrayList<Task> listItems) {
         ObjectMapper objectMapper = new ObjectMapper();
         try {
+            objectMapper.registerModule(new JavaTimeModule());
             objectMapper.writeValue(new File("saved_list.json"), listItems);
         } catch (IOException e) {
             e.printStackTrace();
@@ -194,6 +219,7 @@ public class Skibidi {
         ArrayList<Task> savedList = new ArrayList<>();
         try {
             objectMapper.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
+            objectMapper.registerModule(new JavaTimeModule());
             savedList = objectMapper.readValue(myObj, new TypeReference<ArrayList<Task>>() {});
         } catch (IOException ignored) {
         }
