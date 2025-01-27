@@ -1,5 +1,9 @@
 package skibidi.ui;
 
+/**
+ * The {@code Messages} class is a utility class that provides a collection of
+ * constant string messages used throughout the application.
+*/
 public class Messages {
     public static String greet = "Hello! I'm Mr. skibidi\nHave you Skibidied today?";
     public static String bye = "skibidi bop bop!";
