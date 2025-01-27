@@ -34,12 +34,13 @@ test {
 }
 
 application {
-    mainClass.set("seedu.duke.Duke")
+    mainClass.set("skibidi.ui.Skibidi")
 }
 
 shadowJar {
-    archiveBaseName = "duke"
+    archiveBaseName = "skibidi"
     archiveClassifier = null
+    archiveFileName = 'skibidi.jar'
 }
 
 run{
