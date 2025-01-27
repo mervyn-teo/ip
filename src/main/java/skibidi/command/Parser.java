@@ -1,3 +1,5 @@
+package skibidi.command;
+
 public class Parser {
     public enum commandType {
         LIST,

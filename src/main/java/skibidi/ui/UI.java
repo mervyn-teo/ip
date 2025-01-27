@@ -1,3 +1,5 @@
+package skibidi.ui;
+
 import java.util.ArrayList;
 
 public class UI {

@@ -1,3 +1,6 @@
+package skibidi.storage;
+
+import skibidi.task.Task;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -11,7 +14,7 @@ import java.util.ArrayList;
 public class Storage {
     private final String location;
 
-    Storage(String location) {
+    public Storage(String location) {
         this.location = location;
         File myObj = new File(this.location);
     }

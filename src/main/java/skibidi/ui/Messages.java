@@ -1,6 +1,8 @@
+package skibidi.ui;
+
 public class Messages {
-    public static String greet = "Hello! I'm Mr. Skibidi\nHave you Skibidied today?";
-    public static String bye = "Skibidi bop bop!";
+    public static String greet = "Hello! I'm Mr. skibidi\nHave you Skibidied today?";
+    public static String bye = "skibidi bop bop!";
     public static String emptyList = "There are no item in your list skid skid!";
     public static String doubleCheck = "Double check what you want from me skibidi bop bop!";
     public static String outOfBounds = "This is out of bounds my skibidi!";

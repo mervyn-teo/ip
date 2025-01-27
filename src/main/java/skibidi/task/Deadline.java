@@ -1,3 +1,5 @@
+package skibidi.task;
+
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 
 import java.time.LocalDate;
