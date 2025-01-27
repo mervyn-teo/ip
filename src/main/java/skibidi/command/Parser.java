@@ -1,7 +1,7 @@
 package skibidi.command;
 
 public class Parser {
-    public enum commandType {
+    public enum CommandType {
         LIST,
         BYE,
         MARK,
@@ -13,15 +13,15 @@ public class Parser {
         UNKNOWN
     }
 
-    public static commandType parse(String s) {
+    public static CommandType parse(String s) {
         if (s == null || s.isBlank()) {
-            return commandType.UNKNOWN;
+            return CommandType.UNKNOWN;
         }
-        String[] splitted = s.split("\\s+");
+        String[] split = s.split("\\s+");
         try {
-            return commandType.valueOf(splitted[0].toUpperCase());
+            return CommandType.valueOf(split[0].toUpperCase());
         } catch (IllegalArgumentException e) {
-            return commandType.UNKNOWN;
+            return CommandType.UNKNOWN;
         }
     }
 }

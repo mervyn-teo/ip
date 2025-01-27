@@ -2,56 +2,56 @@ package skibidi.command;
 
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class ParserTest {
     @Test
     void parseList() {
-        assertEquals(Parser.commandType.LIST, Parser.parse("list"));
+        assertEquals(Parser.CommandType.LIST, Parser.parse("list"));
     }
 
     @Test
     void parseUnknown() {
-        assertEquals(Parser.commandType.UNKNOWN, Parser.parse(""));
+        assertEquals(Parser.CommandType.UNKNOWN, Parser.parse(""));
     }
 
     @Test
     void parseUnknownNull() {
-        assertEquals(Parser.commandType.UNKNOWN, Parser.parse(null));
+        assertEquals(Parser.CommandType.UNKNOWN, Parser.parse(null));
     }
 
     @Test
     void parseTodo() {
-        assertEquals(Parser.commandType.TODO, Parser.parse("todo"));
+        assertEquals(Parser.CommandType.TODO, Parser.parse("todo"));
     }
 
     @Test
     void parseEvent() {
-        assertEquals(Parser.commandType.EVENT, Parser.parse("event"));
+        assertEquals(Parser.CommandType.EVENT, Parser.parse("event"));
     }
 
     @Test
     void parseDeadline() {
-        assertEquals(Parser.commandType.DEADLINE, Parser.parse("deadline"));
+        assertEquals(Parser.CommandType.DEADLINE, Parser.parse("deadline"));
     }
 
     @Test
     void parseMark() {
-        assertEquals(Parser.commandType.MARK, Parser.parse("mark"));
+        assertEquals(Parser.CommandType.MARK, Parser.parse("mark"));
     }
 
     @Test
     void parseUnmark() {
-        assertEquals(Parser.commandType.UNMARK, Parser.parse("unmark"));
+        assertEquals(Parser.CommandType.UNMARK, Parser.parse("unmark"));
     }
 
     @Test
     void parseDelete() {
-        assertEquals(Parser.commandType.DELETE, Parser.parse("delete"));
+        assertEquals(Parser.CommandType.DELETE, Parser.parse("delete"));
     }
 
     @Test
     void parseBye() {
-        assertEquals(Parser.commandType.BYE, Parser.parse("bye"));
+        assertEquals(Parser.CommandType.BYE, Parser.parse("bye"));
     }
 }

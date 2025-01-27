@@ -6,14 +6,16 @@ import org.junit.jupiter.api.Test;
 import skibidi.task.Deadline;
 import skibidi.task.Event;
 import skibidi.task.Task;
-import skibidi.task.toDo;
+import skibidi.task.ToDo;
 
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class StorageTest {
     private static final String TEST_FILE_PATH = "test_storage.json";
@@ -42,8 +44,8 @@ class StorageTest {
     @Test
     void saveList_savesTasksToFile() {
         // Arrange
-        ArrayList<Task> tasks = new ArrayList<>();
-        tasks.add(new toDo("Buy groceries"));
+        List<Task> tasks = new ArrayList<>();
+        tasks.add(new ToDo("Buy groceries"));
         tasks.add(new Deadline("Finish project", LocalDate.of(2023, 12, 25)));
         tasks.add(new Event("Team meeting", LocalDate.of(2023, 10, 15), LocalDate.of(2023, 10, 16)));
 
@@ -59,14 +61,14 @@ class StorageTest {
     @Test
     void loadList_loadsTasksFromFile() {
         // Arrange
-        ArrayList<Task> tasks = new ArrayList<>();
-        tasks.add(new toDo("Buy groceries"));
+        List<Task> tasks = new ArrayList<>();
+        tasks.add(new ToDo("Buy groceries"));
         tasks.add(new Deadline("Finish project", LocalDate.of(2023, 12, 25)));
         tasks.add(new Event("Team meeting", LocalDate.of(2023, 10, 15), LocalDate.of(2023, 10, 16)));
         storage.saveList(tasks);
 
         // Act
-        ArrayList<Task> loadedTasks = storage.loadList();
+        List<Task> loadedTasks = storage.loadList();
 
         // Assert
         assertEquals(3, loadedTasks.size(), "The size of the loaded list should match the saved list");
@@ -78,7 +80,7 @@ class StorageTest {
     @Test
     void loadList_handlesEmptyFileGracefully() {
         // Act
-        ArrayList<Task> loadedTasks = storage.loadList();
+        List<Task> loadedTasks = storage.loadList();
 
         // Assert
         assertTrue(loadedTasks.isEmpty(), "The loaded list should be empty if the file is empty or non-existent");

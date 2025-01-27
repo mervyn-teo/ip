@@ -10,16 +10,16 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Storage {
     private final String location;
 
     public Storage(String location) {
         this.location = location;
-        File myObj = new File(this.location);
     }
 
-    public void saveList(ArrayList<Task> listItems) {
+    public void saveList(List<Task> listItems) {
         ObjectMapper objectMapper = new ObjectMapper();
         try {
             objectMapper.registerModule(new JavaTimeModule());
@@ -29,7 +29,7 @@ public class Storage {
         }
     }
 
-    public ArrayList<Task> loadList() {
+    public List<Task> loadList() {
         File myObj = new File(location);
         try {
             myObj.createNewFile(); // This garuntees that the JSON file exists
@@ -38,11 +38,11 @@ public class Storage {
         }
 
         ObjectMapper objectMapper = new ObjectMapper();
-        ArrayList<Task> savedList = new ArrayList<>();
+        List<Task> savedList = new ArrayList<>();
         try {
             objectMapper.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
             objectMapper.registerModule(new JavaTimeModule());
-            savedList = objectMapper.readValue(myObj, new TypeReference<ArrayList<Task>>() {});
+            savedList = objectMapper.readValue(myObj, new TypeReference<List<Task>>() {});
         } catch (IOException ignored) {
         }
         return savedList;
