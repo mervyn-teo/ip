@@ -18,7 +18,7 @@ public class Command {
             ui.printContent(Messages.emptyCommand);
         } else {
         // convert user choice to enum
-            Parser.commandType userChoiceEnum = null;
+            Parser.commandType userChoiceEnum;
             userChoiceEnum = Parser.parse(userChoice);
 
             String[] splitUserchoice = userChoice.split(" ", 2);
@@ -112,7 +112,6 @@ public class Command {
                 ui.printContent(Messages.markUnDone + taskItem);
                 storage.saveList(listItems);
             }
-            return;
         } catch (NumberFormatException e) {
             ui.printContent(Messages.nanError);
         }

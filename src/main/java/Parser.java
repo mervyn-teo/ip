@@ -17,8 +17,7 @@ public class Parser {
         }
         String[] splitted = s.split("\\s+");
         try {
-            commandType ret = commandType.valueOf(splitted[0].toUpperCase());
-            return ret;
+            return commandType.valueOf(splitted[0].toUpperCase());
         } catch (IllegalArgumentException e) {
             return commandType.UNKNOWN;
         }

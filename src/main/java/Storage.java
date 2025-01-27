@@ -11,19 +11,9 @@ import java.util.ArrayList;
 public class Storage {
     private final String location;
 
-    private ArrayList<Task> listItems = new ArrayList<>();
     Storage(String location) {
         this.location = location;
         File myObj = new File(this.location);
-
-        // check if file exists
-        try {
-            if (!myObj.createNewFile()) {
-                listItems = this.loadList();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     public void saveList(ArrayList<Task> listItems) {
@@ -37,8 +27,14 @@ public class Storage {
     }
 
     public ArrayList<Task> loadList() {
-        ObjectMapper objectMapper = new ObjectMapper();
         File myObj = new File(location);
+        try {
+            myObj.createNewFile(); // This garuntees that the JSON file exists
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        ObjectMapper objectMapper = new ObjectMapper();
         ArrayList<Task> savedList = new ArrayList<>();
         try {
             objectMapper.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
