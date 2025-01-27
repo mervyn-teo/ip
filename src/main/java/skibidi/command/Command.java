@@ -11,6 +11,7 @@ import skibidi.ui.UI;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Command {
     private final ArrayList<Task> listItems;
@@ -65,6 +66,10 @@ public class Command {
                     deleteTask(splitUserchoice);
                     break;
                 }
+                case FIND: {
+                    findTask(splitUserchoice);
+                    break;
+                }
                 default: {
                     defaultBehaviour();
                     }
@@ -74,6 +79,27 @@ public class Command {
 
     private void defaultBehaviour() {
         ui.printContent(Messages.confused);
+    }
+
+
+    private void findTask(String[] splitUserchoice) {
+        if (listItems.isEmpty()) {
+            ui.printContent(Messages.emptyList);
+            return;
+        }
+        String wordToFind = splitUserchoice[1];
+        List<Task> taskFound = new ArrayList<>();
+        for (Task task : listItems) {
+            if (task.toString().contains(wordToFind)) {
+                taskFound.add(task);
+            }
+        }
+
+        if (taskFound.isEmpty()) {
+            ui.printContent("I cannot find any task that fulfill your requirement");
+        } else {
+            ui.printContent(taskFound);
+        }
     }
 
     private void bye() {

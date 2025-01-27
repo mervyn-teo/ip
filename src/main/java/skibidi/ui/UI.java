@@ -1,6 +1,6 @@
 package skibidi.ui;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class UI {
     public void printContent(String content) {
@@ -12,7 +12,7 @@ public class UI {
         System.out.println(Messages.spacer);
     }
 
-    public <T> void printContent(ArrayList<T> content) {
+    public <T> void printContent(List<T> content) {
         System.out.println(Messages.spacer);
         int i = 1;
         for (T s : content) {

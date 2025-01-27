@@ -10,6 +10,7 @@ public class Parser {
         EVENT,
         DEADLINE,
         DELETE,
+        FIND,
         UNKNOWN
     }
 
