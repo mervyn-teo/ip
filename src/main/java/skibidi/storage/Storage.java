@@ -11,14 +11,30 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
+/**
+ * The Storage class provides functionality for saving and loading a list of {@link Task} objects
+ * to and from a JSON file at a specified storage location.
+ */
 public class Storage {
     private final String location;
 
+    /**
+     * Constructs a Storage instance with the specified file location.
+     * If the file does not already exist, the file object is initialized.
+     *
+     * @param location the file path where the tasks will be stored or retrieved from
+     */
     public Storage(String location) {
         this.location = location;
         File myObj = new File(this.location);
     }
 
+    /**
+     * Saves a list of {@link Task} objects to the file specified by the location.
+     * The list is serialized into JSON format and stored in the specified location.
+     *
+     * @param listItems the list of tasks to save
+     */
     public void saveList(ArrayList<Task> listItems) {
         ObjectMapper objectMapper = new ObjectMapper();
         try {
@@ -29,6 +45,12 @@ public class Storage {
         }
     }
 
+    /**
+     * Loads a list of {@link Task} objects from the file specified by the location.
+     * If no file exists at the specified location, it creates an empty file.
+     *
+     * @return the list of tasks loaded from the file, or an empty list if the file is empty or cannot be read
+     */
     public ArrayList<Task> loadList() {
         File myObj = new File(location);
         try {
