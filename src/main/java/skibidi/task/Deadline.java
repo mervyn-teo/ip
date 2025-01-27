@@ -24,7 +24,7 @@ public class Deadline extends Task
 
     public String toString() {
         DateTimeFormatter df = new DateTimeFormatterBuilder().appendPattern("dd/MMM/yyyy").toFormatter();
-        return super.getTaskType() + super.getisDone() + " " + super.getTask() + "(by: " + this.deadline.format(df) + ")";
+        return super.getTaskType() + super.getIsDone() + " " + super.getTask() + "(by: " + this.deadline.format(df) + ")";
     }
 
     public LocalDate getDeadline() {

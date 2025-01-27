@@ -4,21 +4,22 @@ import skibidi.storage.Storage;
 import skibidi.task.Deadline;
 import skibidi.task.Event;
 import skibidi.task.Task;
-import skibidi.task.toDo;
+import skibidi.task.ToDo;
 import skibidi.ui.Messages;
 import skibidi.ui.UI;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
+import java.util.List;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Command {
-    private final ArrayList<Task> listItems;
+    private final List<Task> listItems;
     private final Storage storage;
     private final UI ui;
 
-    public Command(ArrayList<Task> listItems, Storage storage, UI ui) {
+    public Command(List<Task> listItems, Storage storage, UI ui) {
         this.listItems = listItems;
         this.storage = storage;
         this.ui = ui;
@@ -26,10 +27,10 @@ public class Command {
 
     public void processCommand(String userChoice) {
         if (userChoice.isEmpty()) {
-            ui.printContent(Messages.emptyCommand);
+            ui.printContent(Messages.EMPTY_COMMAND);
         } else {
         // convert user choice to enum
-            Parser.commandType userChoiceEnum;
+            Parser.CommandType userChoiceEnum;
             userChoiceEnum = Parser.parse(userChoice);
 
             String[] splitUserchoice = userChoice.split(" ", 2);
@@ -78,7 +79,7 @@ public class Command {
     }
 
     private void defaultBehaviour() {
-        ui.printContent(Messages.confused);
+        ui.printContent(Messages.CONFUSED);
     }
 
 
@@ -103,13 +104,13 @@ public class Command {
     }
 
     private void bye() {
-        ui.printContent(Messages.bye);
+        ui.printContent(Messages.BYE);
         System.exit(0);
     }
 
     private void list() {
         if (listItems.isEmpty()) {
-            ui.printContent(Messages.emptyList);
+            ui.printContent(Messages.EMPTY_lIST);
         } else {
             ui.printContent(listItems);
         }
@@ -117,58 +118,58 @@ public class Command {
 
     private void markDone(String[] splitUserchoice) {
         if (splitUserchoice.length != 2){
-            ui.printContent(Messages.doubleCheck);
+            ui.printContent(Messages.DOUBLE_CHECK);
             return;
         }
         try {
             if (!isValidIndex(Integer.parseInt(splitUserchoice[1]) - 1, listItems)){
-                ui.printContent(Messages.outOfBounds);
+                ui.printContent(Messages.OUT_OF_BOUNDS);
             } else {
                 Task taskItem = listItems.get(Integer.parseInt(splitUserchoice[1]) - 1);
                 taskItem.markDone();
-                ui.printContent(Messages.markDone + taskItem);
+                ui.printContent(Messages.MARK_DONE + taskItem);
                 storage.saveList(listItems);
             }
         } catch (NumberFormatException e) {
-            ui.printContent(Messages.nanError);
+            ui.printContent(Messages.NAN_ERROR);
         }
     }
 
     private void markUndone(String[] splitUserchoice) {
         if (splitUserchoice.length != 2){
-            ui.printContent(Messages.doubleCheck);
+            ui.printContent(Messages.DOUBLE_CHECK);
             return;
         }
         try {
             if (!isValidIndex(Integer.parseInt(splitUserchoice[1]) - 1, listItems)){
-                ui.printContent(Messages.outOfBounds);
+                ui.printContent(Messages.OUT_OF_BOUNDS);
             } else {
                 Task taskItem = listItems.get(Integer.parseInt(splitUserchoice[1]) - 1);
                 taskItem.markUndone();
-                ui.printContent(Messages.markUnDone + taskItem);
+                ui.printContent(Messages.MARK_UNDONE + taskItem);
                 storage.saveList(listItems);
             }
         } catch (NumberFormatException e) {
-            ui.printContent(Messages.nanError);
+            ui.printContent(Messages.NAN_ERROR);
         }
     }
 
     private void addTodo(String[] splitUserchoice) {
-        if (splitUserchoice.length == 1 | splitUserchoice[1].isEmpty()) {
-            ui.printContent(Messages.emptyTodo);
+        if (splitUserchoice.length == 1 || splitUserchoice[1].isEmpty()) {
+            ui.printContent(Messages.EMPTY_TODO);
         } else {
-            addTask(new toDo(splitUserchoice[1]));
+            addTask(new ToDo(splitUserchoice[1]));
         }
     }
 
     private void addEvent(String[] splitUserchoice) {
         if (splitUserchoice.length != 2){
-            ui.printContent(Messages.emptyEvent);
+            ui.printContent(Messages.EMPTY_EVENT);
             return;
         }
         String[] splitted = splitUserchoice[1].split("/from | /to ", 3);
         if (splitted.length != 3) {
-            ui.printContent(Messages.doubleCheck);
+            ui.printContent(Messages.DOUBLE_CHECK);
         } else {
             LocalDate fromDate;
             LocalDate toDate;
@@ -176,12 +177,12 @@ public class Command {
                 fromDate = LocalDate.parse(splitted[1]);
                 toDate = LocalDate.parse(splitted[2]);
             } catch (DateTimeParseException e) {
-                ui.printContent(Messages.dateFormat);
+                ui.printContent(Messages.DATE_FORMAT);
                 return;
             }
 
             if (fromDate.isAfter(toDate)) {
-                ui.printContent(Messages.dateConflict);
+                ui.printContent(Messages.DATE_CONFLICT);
                 return;
             }
             addTask(new Event(splitted[0], fromDate, toDate));
@@ -190,44 +191,44 @@ public class Command {
 
     private void deleteTask(String[] splitUserchoice) {
         if (splitUserchoice.length != 2 ) {
-            ui.printContent(Messages.doubleCheck);
+            ui.printContent(Messages.DOUBLE_CHECK);
         } else {
             int index = 0;
             try {
                 if (!isValidIndex(Integer.parseInt(splitUserchoice[1]) - 1, listItems)){
-                    ui.printContent(Messages.outOfBounds);
+                    ui.printContent(Messages.OUT_OF_BOUNDS);
                 } else {
                     ui.printRemoved(listItems.get(index).toString(), (listItems.size() - 1));
                     listItems.remove(index);
                     storage.saveList(listItems);
                 }
             } catch (NumberFormatException e) {
-                ui.printContent(Messages.nanError);
+                ui.printContent(Messages.NAN_ERROR);
             }
         }
     }
 
     private void addDeadline(String[] splitUserchoice) {
         if (splitUserchoice.length != 2){
-            ui.printContent(Messages.emptyEvent);
+            ui.printContent(Messages.EMPTY_EVENT);
             return;
         }
         String[] splitTaskTime = splitUserchoice[1].split("/by ", 2);
         if (splitTaskTime.length != 2) {
-            ui.printContent(Messages.doubleCheck);
+            ui.printContent(Messages.DOUBLE_CHECK);
         } else {
             LocalDate byDate;
             try {
                 byDate = LocalDate.parse(splitTaskTime[1]);
             } catch (DateTimeParseException e) {
-                ui.printContent(Messages.dateFormat);
+                ui.printContent(Messages.DATE_FORMAT);
                 return;
             }
             addTask(new Deadline(splitTaskTime[0], byDate));
         }
     }
 
-    private boolean isValidIndex(int index, ArrayList<Task> listItems) {
+    private boolean isValidIndex(int index, List<Task> listItems) {
         return index >= 0 && index < listItems.size();
     }
 

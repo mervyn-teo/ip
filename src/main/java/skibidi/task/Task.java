@@ -11,7 +11,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
         property = "taskType"              // The JSON property that indicates the subtype
 )
 @JsonSubTypes({
-        @JsonSubTypes.Type(value = toDo.class, name = "T"),
+        @JsonSubTypes.Type(value = ToDo.class, name = "T"),
         @JsonSubTypes.Type(value = Event.class, name = "E"),
         @JsonSubTypes.Type(value = Deadline.class, name = "D")
 })
@@ -33,7 +33,8 @@ public abstract class Task {
         return this.taskName;
     }
 
-    protected String getisDone() {
+    @JsonIgnore
+    protected String getIsDone() {
         if (this.isDone) {
             return "[X]";
         }
@@ -53,7 +54,7 @@ public abstract class Task {
     }
 
     public String toString() {
-        return getTaskType() + getisDone() + " " + getTask();
+        return getTaskType() + getIsDone() + " " + getTask();
     }
 
     @JsonIgnore

@@ -1,11 +1,11 @@
 package skibidi.task;
 
-public class toDo extends Task{
-    public toDo() {
+public class ToDo extends Task{
+    public ToDo() {
         super.taskType = "T";
     }
 
-    public toDo(String taskName) {
+    public ToDo(String taskName) {
         super(taskName);
         super.taskType = "T";
     }
