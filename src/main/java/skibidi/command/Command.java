@@ -128,7 +128,7 @@ public class Command {
     }
 
     private void addTodo(String[] splitUserchoice) {
-        if (splitUserchoice.length == 1) {
+        if (splitUserchoice.length == 1 | splitUserchoice[1].isEmpty()) {
             ui.printContent(Messages.emptyTodo);
         } else {
             addTask(new toDo(splitUserchoice[1]));

@@ -1,6 +1,7 @@
 package skibidi.task;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
@@ -20,7 +21,8 @@ public abstract class Task {
     private boolean isDone;
     String taskType;
 
-    public Task() {}
+    public Task() {
+    }
 
     public Task(String taskName) {
         this.taskName = taskName;
@@ -31,7 +33,7 @@ public abstract class Task {
         return this.taskName;
     }
 
-    protected String getDone() {
+    protected String getisDone() {
         if (this.isDone) {
             return "[X]";
         }
@@ -51,6 +53,11 @@ public abstract class Task {
     }
 
     public String toString() {
-        return getTaskType() + getDone() + " " + getTask();
+        return getTaskType() + getisDone() + " " + getTask();
+    }
+
+    @JsonIgnore
+    public boolean isDone() {
+        return this.isDone;
     }
 }
