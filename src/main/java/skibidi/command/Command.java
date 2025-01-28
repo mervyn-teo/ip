@@ -114,7 +114,7 @@ public class Command {
 
     private void findTask(String[] splitUserchoice) {
         if (listItems.isEmpty()) {
-            ui.printContent(Messages.emptyList);
+            ui.printContent(Messages.EMPTY_lIST);
             return;
         }
         String wordToFind = splitUserchoice[1];
@@ -253,11 +253,11 @@ public class Command {
         if (splitUserchoice.length != 2 ) {
             ui.printContent(Messages.DOUBLE_CHECK);
         } else {
-            int index = 0;
             try {
                 if (!isValidIndex(Integer.parseInt(splitUserchoice[1]) - 1, listItems)){
                     ui.printContent(Messages.OUT_OF_BOUNDS);
                 } else {
+                    int index = Integer.parseInt(splitUserchoice[1]) - 1;
                     ui.printRemoved(listItems.get(index).toString(), (listItems.size() - 1));
                     listItems.remove(index);
                     storage.saveList(listItems);
