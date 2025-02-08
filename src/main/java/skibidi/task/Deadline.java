@@ -1,12 +1,10 @@
 package skibidi.task;
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
-
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 
-@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 
 /**
  * Represents a Deadline task, which is a type of {@link Task}
@@ -16,8 +14,8 @@ import java.time.format.DateTimeFormatterBuilder;
  * and manage the deadline date.
  * </p>
  */
-public class Deadline extends Task
-{
+@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
+public class Deadline extends Task {
     private LocalDate deadline;
 
     /**
@@ -54,7 +52,8 @@ public class Deadline extends Task
     @Override
     public String toString() {
         DateTimeFormatter df = new DateTimeFormatterBuilder().appendPattern("dd/MMM/yyyy").toFormatter();
-        return super.getTaskType() + super.getIsDone() + " " + super.getTask() + "(by: " + this.deadline.format(df) + ")";
+        return super.getTaskType() + super.getIsDone() + " " + super.getTask()
+                + "(by: " + this.deadline.format(df) + ")";
     }
 
 

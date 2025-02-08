@@ -1,5 +1,10 @@
 package skibidi.command;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
+import java.util.List;
+
 import skibidi.storage.Storage;
 import skibidi.task.Deadline;
 import skibidi.task.Event;
@@ -7,12 +12,6 @@ import skibidi.task.Task;
 import skibidi.task.ToDo;
 import skibidi.ui.Messages;
 import skibidi.ui.UI;
-
-import java.time.LocalDate;
-import java.time.format.DateTimeParseException;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * The {@code Command} class processes and executes user commands in a task management application.
@@ -55,52 +54,52 @@ public class Command {
         if (userChoice.isEmpty()) {
             ui.printContent(Messages.EMPTY_COMMAND);
         } else {
-        // convert user choice to enum
+            // convert user choice to enum
             Parser.CommandType userChoiceEnum;
             userChoiceEnum = Parser.parse(userChoice);
 
             String[] splitUserchoice = userChoice.split(" ", 2);
             switch (userChoiceEnum) {
-                case BYE: {
-                    bye();
-                    break;
-                }
-                case LIST: {
-                    list();
-                    break;
-                }
-                case MARK: {
-                    markDone(splitUserchoice);
-                    break;
-                }
-                case UNMARK: {
-                    markUndone(splitUserchoice);
-                    break;
-                }
-                case TODO: {
-                    addTodo(splitUserchoice);
-                    break;
-                }
-                case EVENT: {
-                    addEvent(splitUserchoice);
-                    break;
-                }
-                case DEADLINE: {
-                    addDeadline(splitUserchoice);
-                    break;
-                }
-                case DELETE: {
-                    deleteTask(splitUserchoice);
-                    break;
-                }
-                case FIND: {
-                    findTask(splitUserchoice);
-                    break;
-                }
-                default: {
-                    defaultBehaviour();
-                    }
-                }
+            case BYE: {
+                bye();
+                break;
+            }
+            case LIST: {
+                list();
+                break;
+            }
+            case MARK: {
+                markDone(splitUserchoice);
+                break;
+            }
+            case UNMARK: {
+                markUndone(splitUserchoice);
+                break;
+            }
+            case TODO: {
+                addTodo(splitUserchoice);
+                break;
+            }
+            case EVENT: {
+                addEvent(splitUserchoice);
+                break;
+            }
+            case DEADLINE: {
+                addDeadline(splitUserchoice);
+                break;
+            }
+            case DELETE: {
+                deleteTask(splitUserchoice);
+                break;
+            }
+            case FIND: {
+                findTask(splitUserchoice);
+                break;
+            }
+            default: {
+                defaultBehaviour();
+            }
+            }
         }
     }
 
@@ -114,7 +113,7 @@ public class Command {
 
     private void findTask(String[] splitUserchoice) {
         if (listItems.isEmpty()) {
-            ui.printContent(Messages.EMPTY_lIST);
+            ui.printContent(Messages.EMPTY_LIST);
             return;
         }
         String wordToFind = splitUserchoice[1];
@@ -145,7 +144,7 @@ public class Command {
      */
     private void list() {
         if (listItems.isEmpty()) {
-            ui.printContent(Messages.EMPTY_lIST);
+            ui.printContent(Messages.EMPTY_LIST);
         } else {
             ui.printContent(listItems);
         }
@@ -157,12 +156,12 @@ public class Command {
      * @param splitUserchoice the split string containing the command and task number
      */
     private void markDone(String[] splitUserchoice) {
-        if (splitUserchoice.length != 2){
+        if (splitUserchoice.length != 2) {
             ui.printContent(Messages.DOUBLE_CHECK);
             return;
         }
         try {
-            if (!isValidIndex(Integer.parseInt(splitUserchoice[1]) - 1, listItems)){
+            if (!isValidIndex(Integer.parseInt(splitUserchoice[1]) - 1, listItems)) {
                 ui.printContent(Messages.OUT_OF_BOUNDS);
             } else {
                 Task taskItem = listItems.get(Integer.parseInt(splitUserchoice[1]) - 1);
@@ -181,12 +180,12 @@ public class Command {
      * @param splitUserchoice the split string containing the command and task number
      */
     private void markUndone(String[] splitUserchoice) {
-        if (splitUserchoice.length != 2){
+        if (splitUserchoice.length != 2) {
             ui.printContent(Messages.DOUBLE_CHECK);
             return;
         }
         try {
-            if (!isValidIndex(Integer.parseInt(splitUserchoice[1]) - 1, listItems)){
+            if (!isValidIndex(Integer.parseInt(splitUserchoice[1]) - 1, listItems)) {
                 ui.printContent(Messages.OUT_OF_BOUNDS);
             } else {
                 Task taskItem = listItems.get(Integer.parseInt(splitUserchoice[1]) - 1);
@@ -218,7 +217,7 @@ public class Command {
      * @param splitUserchoice the split string containing the command and task description
      */
     private void addEvent(String[] splitUserchoice) {
-        if (splitUserchoice.length != 2){
+        if (splitUserchoice.length != 2) {
             ui.printContent(Messages.EMPTY_EVENT);
             return;
         }
@@ -250,11 +249,11 @@ public class Command {
      * @param splitUserchoice the split string containing the command and task description
      */
     private void deleteTask(String[] splitUserchoice) {
-        if (splitUserchoice.length != 2 ) {
+        if (splitUserchoice.length != 2) {
             ui.printContent(Messages.DOUBLE_CHECK);
         } else {
             try {
-                if (!isValidIndex(Integer.parseInt(splitUserchoice[1]) - 1, listItems)){
+                if (!isValidIndex(Integer.parseInt(splitUserchoice[1]) - 1, listItems)) {
                     ui.printContent(Messages.OUT_OF_BOUNDS);
                 } else {
                     int index = Integer.parseInt(splitUserchoice[1]) - 1;
@@ -274,7 +273,7 @@ public class Command {
      * @param splitUserchoice the split string containing the command and task description
      */
     private void addDeadline(String[] splitUserchoice) {
-        if (splitUserchoice.length != 2){
+        if (splitUserchoice.length != 2) {
             ui.printContent(Messages.EMPTY_EVENT);
             return;
         }

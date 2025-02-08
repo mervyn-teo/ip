@@ -1,19 +1,19 @@
 package skibidi.task;
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 
-@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 
 /**
  * Represents an event task with a specific start and end date.
  * Extends the {@link Task} class and provides additional fields and functionality to handle
  * the time period (`from` and `to`) of the task.
  */
+@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class Event extends Task {
     private LocalDate from;
     private LocalDate to;
@@ -50,7 +50,8 @@ public class Event extends Task {
     @Override
     public String toString() {
         DateTimeFormatter df = new DateTimeFormatterBuilder().appendPattern("dd/MM/yyyy").toFormatter();
-        return super.getTaskType() + super.getIsDone() + " " + super.getTask() + "(from: " + this.from.format(df) + " to: " + this.to.format(df)+ ")";
+        return super.getTaskType() + super.getIsDone() + " " + super.getTask()
+                + "(from: " + this.from.format(df) + " to: " + this.to.format(df) + ")";
     }
 
     /**

@@ -6,6 +6,9 @@ package skibidi.command;
  * command execution logics.
  */
 public class Parser {
+    /**
+     * Represents the different types of commands that can be issued in the application.
+     */
     public enum CommandType {
         LIST,
         BYE,
@@ -20,7 +23,7 @@ public class Parser {
     }
 
     /**
-     * Parses a raw string input and determines the corresponding {@link commandType}.
+     * Parses a raw string input and determines the corresponding {@link CommandType}.
      *
      * @param s the user input string to be parsed
      * @return the {@link CommandType} corresponding to the string input. If the input is null,

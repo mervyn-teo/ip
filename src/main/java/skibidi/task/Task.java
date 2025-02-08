@@ -5,18 +5,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
-@JsonTypeInfo(
-        use = JsonTypeInfo.Id.NAME,      // Use the 'type' property to identify the subtype
-        include = JsonTypeInfo.As.PROPERTY,
-        property = "taskType"              // The JSON property that indicates the subtype
-)
-@JsonSubTypes({
-        @JsonSubTypes.Type(value = ToDo.class, name = "T"),
-        @JsonSubTypes.Type(value = Event.class, name = "E"),
-        @JsonSubTypes.Type(value = Deadline.class, name = "D")
-})
-@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
-
 /**
  * An abstract base class for representing a general task.
  * <p>
@@ -25,10 +13,22 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
  * and functionality.
  * </p>
  */
+@JsonTypeInfo(
+        use = JsonTypeInfo.Id.NAME, // Use the 'type' property to identify the subtype
+        include = JsonTypeInfo.As.PROPERTY,
+        property = "taskType"// The JSON property that indicates the subtype
+)
+@JsonSubTypes({
+    @JsonSubTypes.Type(value = ToDo.class, name = "T"),
+    @JsonSubTypes.Type(value = Event.class, name = "E"),
+    @JsonSubTypes.Type(value = Deadline.class, name = "D")
+})
+@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
+
 public abstract class Task {
-    private String taskName;
+    protected String taskType;
     private boolean isDone;
-    String taskType;
+    private String taskName;
 
     /**
      * Default constructor.

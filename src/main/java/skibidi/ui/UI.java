@@ -11,6 +11,12 @@ import java.util.List;
  * </p>
  */
 public class UI {
+    /**
+     * Prints the given content to the console, formatting it with a spacer
+     * line before and after. Each line of the content is indented for readability.
+     *
+     * @param content the text to be printed, with lines separated by '\n'
+     */
     public void printContent(String content) {
         System.out.println(Messages.SPACER);
         String[] splitted = content.split("\n");
@@ -23,7 +29,7 @@ public class UI {
     /**
      * Prints items in a given list to the console in a numbered format.
      *
-     * @param content An {@link ArrayList} of items to display.
+     * @param content An {@link List} of items to display.
      * @param <T>     The type of items in the list.
      */
     public <T> void printContent(List<T> content) {

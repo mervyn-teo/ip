@@ -4,7 +4,7 @@ package skibidi.task;
  * Represents a simple task with no additional fields or properties.
  * Extends the {@link Task} class and sets the task type to "T".
  */
-public class ToDo extends Task{
+public class ToDo extends Task {
 
     /**
      * Default constructor. Initializes a new {@code toDo} object with a task type of "T".

@@ -1,12 +1,7 @@
 package skibidi.storage;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import skibidi.task.Deadline;
-import skibidi.task.Event;
-import skibidi.task.Task;
-import skibidi.task.ToDo;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
@@ -14,8 +9,14 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import skibidi.task.Deadline;
+import skibidi.task.Event;
+import skibidi.task.Task;
+import skibidi.task.ToDo;
 
 class StorageTest {
     private static final String TEST_FILE_PATH = "test_storage.json";
@@ -34,7 +35,7 @@ class StorageTest {
 
     @AfterEach
     void tearDown() {
-//         Clean up after each test by deleting the test file
+        //Clean up after each test by deleting the test file
         File file = new File(TEST_FILE_PATH);
         if (file.exists()) {
             file.delete();

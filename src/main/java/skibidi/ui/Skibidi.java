@@ -1,11 +1,12 @@
 package skibidi.ui;
 
+import java.util.List;
+import java.util.Scanner;
+
 import skibidi.command.Command;
 import skibidi.storage.Storage;
 import skibidi.task.Task;
 
-import java.util.List;
-import java.util.Scanner;
 
 /**
  * Represents the main application class that manages the interaction between the user interface (UI),

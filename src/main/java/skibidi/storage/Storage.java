@@ -1,16 +1,17 @@
 package skibidi.storage;
 
-import skibidi.task.Task;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import skibidi.task.Task;
 
 /**
  * The Storage class provides functionality for saving and loading a list of {@link Task} objects
@@ -61,12 +62,15 @@ public class Storage {
 
         ObjectMapper objectMapper = new ObjectMapper();
         List<Task> savedList = new ArrayList<>();
+
+        objectMapper.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
+        objectMapper.registerModule(new JavaTimeModule());
         try {
-            objectMapper.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
-            objectMapper.registerModule(new JavaTimeModule());
             savedList = objectMapper.readValue(myObj, new TypeReference<List<Task>>() {});
-        } catch (IOException ignored) {
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+
         return savedList;
     }
 }
