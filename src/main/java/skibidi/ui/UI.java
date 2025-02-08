@@ -17,13 +17,13 @@ public class UI {
      *
      * @param content the text to be printed, with lines separated by '\n'
      */
-    public void printContent(String content) {
-        System.out.println(Messages.SPACER);
+    public String getContent(String content) {
+        StringBuilder ret = new StringBuilder();
         String[] splitted = content.split("\n");
         for (String s : splitted) {
-            System.out.println("     " + s);
+            ret.append(s).append("\n");
         }
-        System.out.println(Messages.SPACER);
+        return ret.toString();
     }
 
     /**
@@ -32,14 +32,14 @@ public class UI {
      * @param content An {@link List} of items to display.
      * @param <T>     The type of items in the list.
      */
-    public <T> void printContent(List<T> content) {
-        System.out.println(Messages.SPACER);
+    public <T> String getContent(List<T> content) {
+        StringBuilder ret = new StringBuilder();
         int i = 1;
         for (T s : content) {
-            System.out.println("     " + i + ". " + s);
+            ret.append(i).append(". ").append(s).append("\n");
             i++;
         }
-        System.out.println(Messages.SPACER);
+        return ret.toString();
     }
 
     /**
@@ -47,8 +47,8 @@ public class UI {
      *
      * @param content The message content to display.
      */
-    public void printAdded(String content, int index) {
-        this.printContent("added: " + content + "\nthere are " + index + " tasks in the list now");
+    public String getAdded(String content, int index) {
+        return "added: " + content + "\nthere are " + index + " tasks in the list now";
     }
 
     /**
@@ -56,7 +56,7 @@ public class UI {
      *
      * @param content The message content to display.
      */
-    public void printRemoved(String content, int index) {
-        this.printContent("removed: " + content + "\nthere are " + index + " tasks in the list now");
+    public String getRemoved(String content, int index) {
+        return "removed: " + content + "\nthere are " + index + " tasks in the list now";
     }
 }

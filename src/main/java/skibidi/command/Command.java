@@ -50,9 +50,10 @@ public class Command {
      *
      * @param userChoice the command entered by the user
      */
-    public void processCommand(String userChoice) {
+    public String processCommand(String userChoice) {
+        String msg;
         if (userChoice.isEmpty()) {
-            ui.printContent(Messages.EMPTY_COMMAND);
+            msg = ui.getContent(Messages.EMPTY_COMMAND);
         } else {
             // convert user choice to enum
             Parser.CommandType userChoiceEnum;
@@ -61,60 +62,62 @@ public class Command {
             String[] splitUserchoice = userChoice.split(" ", 2);
             switch (userChoiceEnum) {
             case BYE: {
-                bye();
+                msg = bye();
                 break;
             }
             case LIST: {
-                list();
+                msg = list();
                 break;
             }
             case MARK: {
-                markDone(splitUserchoice);
+                msg = markDone(splitUserchoice);
                 break;
             }
             case UNMARK: {
-                markUndone(splitUserchoice);
+                msg = markUndone(splitUserchoice);
                 break;
             }
             case TODO: {
-                addTodo(splitUserchoice);
+                msg = addTodo(splitUserchoice);
                 break;
             }
             case EVENT: {
-                addEvent(splitUserchoice);
+                msg = addEvent(splitUserchoice);
                 break;
             }
             case DEADLINE: {
-                addDeadline(splitUserchoice);
+                msg = addDeadline(splitUserchoice);
                 break;
             }
             case DELETE: {
-                deleteTask(splitUserchoice);
+                msg = deleteTask(splitUserchoice);
                 break;
             }
             case FIND: {
-                findTask(splitUserchoice);
+                msg = findTask(splitUserchoice);
                 break;
             }
             default: {
-                defaultBehaviour();
+                msg = defaultBehaviour();
             }
             }
         }
+        return msg;
     }
 
     /**
      * Handles cases of unrecognized or invalid commands.
      */
-    private void defaultBehaviour() {
-        ui.printContent(Messages.CONFUSED);
+    private String defaultBehaviour() {
+        return ui.getContent(Messages.CONFUSED);
     }
 
 
-    private void findTask(String[] splitUserchoice) {
+    private String findTask(String[] splitUserchoice) {
+        String msg = "";
         if (listItems.isEmpty()) {
-            ui.printContent(Messages.EMPTY_LIST);
-            return;
+            ui.getContent(Messages.EMPTY_LIST);
+            return msg;
         }
         String wordToFind = splitUserchoice[1];
         List<Task> taskFound = new ArrayList<>();
@@ -125,29 +128,31 @@ public class Command {
         }
 
         if (taskFound.isEmpty()) {
-            ui.printContent("I cannot find any task that fulfill your requirement");
+            msg = ui.getContent("I cannot find any task that fulfill your requirement");
         } else {
-            ui.printContent(taskFound);
+            msg = ui.getContent(taskFound);
         }
+        return msg;
     }
 
     /**
      * Exits the application with a message.
      */
-    private void bye() {
-        ui.printContent(Messages.BYE);
-        System.exit(0);
+    private String bye() {
+        return ui.getContent(Messages.BYE);
     }
 
     /**
      * Lists all tasks in the task list. Displays an error message if the list is empty.
      */
-    private void list() {
+    private String list() {
+        String msg = "";
         if (listItems.isEmpty()) {
-            ui.printContent(Messages.EMPTY_LIST);
+            msg = ui.getContent(Messages.EMPTY_LIST);
         } else {
-            ui.printContent(listItems);
+            msg = ui.getContent(listItems);
         }
+        return msg;
     }
 
     /**
@@ -155,23 +160,25 @@ public class Command {
      *
      * @param splitUserchoice the split string containing the command and task number
      */
-    private void markDone(String[] splitUserchoice) {
+    private String markDone(String[] splitUserchoice) {
+        String msg = "";
         if (splitUserchoice.length != 2) {
-            ui.printContent(Messages.DOUBLE_CHECK);
-            return;
+            msg = ui.getContent(Messages.DOUBLE_CHECK);
+            return msg;
         }
         try {
             if (!isValidIndex(Integer.parseInt(splitUserchoice[1]) - 1, listItems)) {
-                ui.printContent(Messages.OUT_OF_BOUNDS);
+                msg = ui.getContent(Messages.OUT_OF_BOUNDS);
             } else {
                 Task taskItem = listItems.get(Integer.parseInt(splitUserchoice[1]) - 1);
                 taskItem.markDone();
-                ui.printContent(Messages.MARK_DONE + taskItem);
+                msg = ui.getContent(Messages.MARK_DONE + taskItem);
                 storage.saveList(listItems);
             }
         } catch (NumberFormatException e) {
-            ui.printContent(Messages.NAN_ERROR);
+            msg = ui.getContent(Messages.NAN_ERROR);
         }
+        return msg;
     }
 
     /**
@@ -179,23 +186,25 @@ public class Command {
      *
      * @param splitUserchoice the split string containing the command and task number
      */
-    private void markUndone(String[] splitUserchoice) {
+    private String markUndone(String[] splitUserchoice) {
+        String msg = "";
         if (splitUserchoice.length != 2) {
-            ui.printContent(Messages.DOUBLE_CHECK);
-            return;
+            msg = ui.getContent(Messages.DOUBLE_CHECK);
+            return msg;
         }
         try {
             if (!isValidIndex(Integer.parseInt(splitUserchoice[1]) - 1, listItems)) {
-                ui.printContent(Messages.OUT_OF_BOUNDS);
+                msg = ui.getContent(Messages.OUT_OF_BOUNDS);
             } else {
                 Task taskItem = listItems.get(Integer.parseInt(splitUserchoice[1]) - 1);
                 taskItem.markUndone();
-                ui.printContent(Messages.MARK_UNDONE + taskItem);
+                msg = ui.getContent(Messages.MARK_UNDONE + taskItem);
                 storage.saveList(listItems);
             }
         } catch (NumberFormatException e) {
-            ui.printContent(Messages.NAN_ERROR);
+            msg = ui.getContent(Messages.NAN_ERROR);
         }
+        return msg;
     }
 
     /**
@@ -203,12 +212,14 @@ public class Command {
      *
      * @param splitUserchoice the split string containing the command and task description
      */
-    private void addTodo(String[] splitUserchoice) {
+    private String addTodo(String[] splitUserchoice) {
+        String msg = "";
         if (splitUserchoice.length == 1 || splitUserchoice[1].isEmpty()) {
-            ui.printContent(Messages.EMPTY_TODO);
+            msg = ui.getContent(Messages.EMPTY_TODO);
         } else {
-            addTask(new ToDo(splitUserchoice[1]));
+            msg = addTask(new ToDo(splitUserchoice[1]));
         }
+        return msg;
     }
 
     /**
@@ -216,14 +227,15 @@ public class Command {
      *
      * @param splitUserchoice the split string containing the command and task description
      */
-    private void addEvent(String[] splitUserchoice) {
+    private String addEvent(String[] splitUserchoice) {
+        String msg = "";
         if (splitUserchoice.length != 2) {
-            ui.printContent(Messages.EMPTY_EVENT);
-            return;
+            msg = ui.getContent(Messages.EMPTY_EVENT);
+            return msg;
         }
         String[] splitted = splitUserchoice[1].split("/from | /to ", 3);
         if (splitted.length != 3) {
-            ui.printContent(Messages.DOUBLE_CHECK);
+            msg = ui.getContent(Messages.DOUBLE_CHECK);
         } else {
             LocalDate fromDate;
             LocalDate toDate;
@@ -231,16 +243,17 @@ public class Command {
                 fromDate = LocalDate.parse(splitted[1]);
                 toDate = LocalDate.parse(splitted[2]);
             } catch (DateTimeParseException e) {
-                ui.printContent(Messages.DATE_FORMAT);
-                return;
+                msg = ui.getContent(Messages.DATE_FORMAT);
+                return msg;
             }
 
             if (fromDate.isAfter(toDate)) {
-                ui.printContent(Messages.DATE_CONFLICT);
-                return;
+                msg = ui.getContent(Messages.DATE_CONFLICT);
+                return msg;
             }
-            addTask(new Event(splitted[0], fromDate, toDate));
+            msg = addTask(new Event(splitted[0], fromDate, toDate));
         }
+        return msg;
     }
 
     /**
@@ -248,23 +261,25 @@ public class Command {
      *
      * @param splitUserchoice the split string containing the command and task description
      */
-    private void deleteTask(String[] splitUserchoice) {
+    private String deleteTask(String[] splitUserchoice) {
+        String msg = "";
         if (splitUserchoice.length != 2) {
-            ui.printContent(Messages.DOUBLE_CHECK);
+            msg = ui.getContent(Messages.DOUBLE_CHECK);
         } else {
             try {
                 if (!isValidIndex(Integer.parseInt(splitUserchoice[1]) - 1, listItems)) {
-                    ui.printContent(Messages.OUT_OF_BOUNDS);
+                    msg = ui.getContent(Messages.OUT_OF_BOUNDS);
                 } else {
                     int index = Integer.parseInt(splitUserchoice[1]) - 1;
-                    ui.printRemoved(listItems.get(index).toString(), (listItems.size() - 1));
+                    msg = ui.getRemoved(listItems.get(index).toString(), (listItems.size() - 1));
                     listItems.remove(index);
                     storage.saveList(listItems);
                 }
             } catch (NumberFormatException e) {
-                ui.printContent(Messages.NAN_ERROR);
+                msg = ui.getContent(Messages.NAN_ERROR);
             }
         }
+        return msg;
     }
 
     /**
@@ -272,24 +287,26 @@ public class Command {
      *
      * @param splitUserchoice the split string containing the command and task description
      */
-    private void addDeadline(String[] splitUserchoice) {
+    private String addDeadline(String[] splitUserchoice) {
+        String msg = "";
         if (splitUserchoice.length != 2) {
-            ui.printContent(Messages.EMPTY_EVENT);
-            return;
+            msg = ui.getContent(Messages.EMPTY_EVENT);
+            return msg;
         }
         String[] splitTaskTime = splitUserchoice[1].split("/by ", 2);
         if (splitTaskTime.length != 2) {
-            ui.printContent(Messages.DOUBLE_CHECK);
+            msg = ui.getContent(Messages.DOUBLE_CHECK);
         } else {
             LocalDate byDate;
             try {
                 byDate = LocalDate.parse(splitTaskTime[1]);
             } catch (DateTimeParseException e) {
-                ui.printContent(Messages.DATE_FORMAT);
-                return;
+                msg = ui.getContent(Messages.DATE_FORMAT);
+                return msg;
             }
-            addTask(new Deadline(splitTaskTime[0], byDate));
+            msg = addTask(new Deadline(splitTaskTime[0], byDate));
         }
+        return msg;
     }
 
     /**
@@ -305,13 +322,14 @@ public class Command {
     }
 
     /**
-     * Adds a given task to the list, prints a confirmation message, and saves the list to storage.
+     * Adds a given task to the list, returns a confirmation message, and saves the list to storage.
      *
      * @param task the task to add
      */
-    private void addTask(Task task) {
+    private String addTask(Task task) {
         listItems.add(task);
-        ui.printAdded(task.toString(), listItems.size());
+        String msg = ui.getAdded(task.toString(), listItems.size());
         storage.saveList(listItems);
+        return msg;
     }
 }
