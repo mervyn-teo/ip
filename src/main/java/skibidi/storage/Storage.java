@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
@@ -18,7 +20,11 @@ import skibidi.task.Task;
  * to and from a JSON file at a specified storage location.
  */
 public class Storage {
+    private static Logger logger = Logger.getLogger(Storage.class.getName());
+    private static final ObjectMapper objectMapper = createObjectMapper();
+
     private final String location;
+    private final File storageFile;
 
     /**
      * Constructs a Storage instance with the specified file location.
@@ -27,7 +33,27 @@ public class Storage {
      * @param location the file path where the tasks will be stored or retrieved from
      */
     public Storage(String location) {
+        assert location != null : "Location cannot be null";
         this.location = location;
+        this.storageFile = new File(location);
+        ensureFileExist();
+    }
+
+    private void ensureFileExist() {
+        try {
+            if (storageFile.createNewFile()) {
+                logger.info("Created new storage file at: " + location);
+            }
+        } catch (IOException e) {
+            logger.log(Level.SEVERE, "Failed to create storage file: " + location, e);
+        }
+    }
+
+    private static ObjectMapper createObjectMapper() {
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.registerModule(new JavaTimeModule());
+        mapper.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
+        return mapper;
     }
 
     /**
@@ -37,12 +63,10 @@ public class Storage {
      * @param listItems the list of tasks to save
      */
     public void saveList(List<Task> listItems) {
-        ObjectMapper objectMapper = new ObjectMapper();
         try {
-            objectMapper.registerModule(new JavaTimeModule());
-            objectMapper.writeValue(new File(location), listItems);
+            objectMapper.writeValue(storageFile, listItems);
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, "Failed to save tasks to file: " + location, e);
         }
     }
 
@@ -53,24 +77,15 @@ public class Storage {
      * @return the list of tasks loaded from the file, or an empty list if the file is empty or cannot be read
      */
     public List<Task> loadList() {
-        File myObj = new File(location);
-        try {
-            myObj.createNewFile(); // This garuntees that the JSON file exists
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (storageFile.length() == 0) {
+            return new ArrayList<>();
         }
 
-        ObjectMapper objectMapper = new ObjectMapper();
-        List<Task> savedList = new ArrayList<>();
-
-        objectMapper.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
-        objectMapper.registerModule(new JavaTimeModule());
         try {
-            savedList = objectMapper.readValue(myObj, new TypeReference<List<Task>>() {});
+            return objectMapper.readValue(storageFile, new TypeReference<List<Task>>() {});
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.log(Level.WARNING, "Failed to read tasks from file: " + location, e);
+            return new ArrayList<>();
         }
-
-        return savedList;
     }
 }
