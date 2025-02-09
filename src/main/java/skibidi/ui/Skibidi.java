@@ -39,7 +39,7 @@ public class Skibidi {
      * It delegates the command processing to the {@code Command} class.
      */
     public void run() {
-        ui.printContent(Messages.GREET);
+//        ui.printContent(Messages.GREET);
         Scanner in = new Scanner(System.in);
         while (true) {
             String userChoice = in.nextLine();
