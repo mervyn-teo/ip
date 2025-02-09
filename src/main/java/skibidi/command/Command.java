@@ -62,7 +62,7 @@ public class Command {
             msg = ui.getContent(Messages.EMPTY_COMMAND);
         } else {
             // convert user choice to enum
-            Parser.CommandType userChoiceEnum;
+            CommandType userChoiceEnum;
             userChoiceEnum = Parser.parse(userChoice);
 
             String[] splitUserchoice = userChoice.split(" ", 2);

@@ -14,12 +14,15 @@ import javafx.scene.layout.HBox;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.Objects;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class DialogBox extends HBox {
     public enum dialogType {
             USER,
             SKIBIDI
     }
+    private static Logger logger = Logger.getLogger(DialogBox.class.getName());
 
     @FXML
     private Label text;
@@ -45,7 +48,7 @@ public class DialogBox extends HBox {
             text.setText(s);
             displayPicture.setImage(image);
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, "Failed to load dialog box", e);
         }
 
     }
