@@ -6,21 +6,6 @@ package skibidi.command;
  * command execution logics.
  */
 public class Parser {
-    /**
-     * Represents the different types of commands that can be issued in the application.
-     */
-    public enum CommandType {
-        LIST,
-        BYE,
-        MARK,
-        UNMARK,
-        TODO,
-        EVENT,
-        DEADLINE,
-        DELETE,
-        FIND,
-        UNKNOWN
-    }
 
     /**
      * Parses a raw string input and determines the corresponding {@link CommandType}.
@@ -33,9 +18,10 @@ public class Parser {
         if (s == null || s.isBlank()) {
             return CommandType.UNKNOWN;
         }
-        String[] split = s.split("\\s+");
+        String[] words = s.trim().replaceAll("\\s+", " ").split(" ");
+        String command = words[0].toUpperCase();
         try {
-            return CommandType.valueOf(split[0].toUpperCase());
+            return CommandType.valueOf(command);
         } catch (IllegalArgumentException e) {
             return CommandType.UNKNOWN;
         }
