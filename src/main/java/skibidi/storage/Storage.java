@@ -33,6 +33,7 @@ public class Storage {
      * @param location the file path where the tasks will be stored or retrieved from
      */
     public Storage(String location) {
+        assert location != null : "Location cannot be null";
         this.location = location;
         this.storageFile = new File(location);
         ensureFileExist();
