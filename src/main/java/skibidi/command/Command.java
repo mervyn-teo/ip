@@ -40,6 +40,10 @@ public class Command {
      * @param ui        the user interface for displaying output to the user
      */
     public Command(List<Task> listItems, Storage storage, UI ui) {
+        assert listItems != null : "Task list must not be null";
+        assert storage != null : "Storage must not be null";
+        assert ui != null : "UI must not be null";
+
         this.listItems = listItems;
         this.storage = storage;
         this.ui = ui;
@@ -51,6 +55,8 @@ public class Command {
      * @param userChoice the command entered by the user
      */
     public String processCommand(String userChoice) {
+        assert userChoice != null : "User choice must not be null";
+
         String msg;
         if (userChoice.isEmpty()) {
             msg = ui.getContent(Messages.EMPTY_COMMAND);
@@ -114,6 +120,8 @@ public class Command {
 
 
     private String findTask(String[] splitUserchoice) {
+        assert splitUserchoice != null && splitUserchoice.length > 1 : "Search term must be provided";
+
         String msg = "";
         if (listItems.isEmpty()) {
             ui.getContent(Messages.EMPTY_LIST);
@@ -161,6 +169,8 @@ public class Command {
      * @param splitUserchoice the split string containing the command and task number
      */
     private String markDone(String[] splitUserchoice) {
+        assert splitUserchoice != null : "User choice must not be null";
+
         String msg = "";
         if (splitUserchoice.length != 2) {
             msg = ui.getContent(Messages.DOUBLE_CHECK);
@@ -187,6 +197,8 @@ public class Command {
      * @param splitUserchoice the split string containing the command and task number
      */
     private String markUndone(String[] splitUserchoice) {
+        assert splitUserchoice != null : "User choice must not be null";
+
         String msg = "";
         if (splitUserchoice.length != 2) {
             msg = ui.getContent(Messages.DOUBLE_CHECK);
@@ -213,6 +225,8 @@ public class Command {
      * @param splitUserchoice the split string containing the command and task description
      */
     private String addTodo(String[] splitUserchoice) {
+        assert splitUserchoice != null : "User choice must not be null";
+
         String msg = "";
         if (splitUserchoice.length == 1 || splitUserchoice[1].isEmpty()) {
             msg = ui.getContent(Messages.EMPTY_TODO);
@@ -228,6 +242,8 @@ public class Command {
      * @param splitUserchoice the split string containing the command and task description
      */
     private String addEvent(String[] splitUserchoice) {
+        assert splitUserchoice != null : "User choice must not be null";
+
         String msg = "";
         if (splitUserchoice.length != 2) {
             msg = ui.getContent(Messages.EMPTY_EVENT);
@@ -262,6 +278,8 @@ public class Command {
      * @param splitUserchoice the split string containing the command and task description
      */
     private String deleteTask(String[] splitUserchoice) {
+        assert splitUserchoice != null : "User choice must not be null";
+
         String msg = "";
         if (splitUserchoice.length != 2) {
             msg = ui.getContent(Messages.DOUBLE_CHECK);
@@ -288,6 +306,8 @@ public class Command {
      * @param splitUserchoice the split string containing the command and task description
      */
     private String addDeadline(String[] splitUserchoice) {
+        assert splitUserchoice != null : "User choice must not be null";
+
         String msg = "";
         if (splitUserchoice.length != 2) {
             msg = ui.getContent(Messages.EMPTY_EVENT);
