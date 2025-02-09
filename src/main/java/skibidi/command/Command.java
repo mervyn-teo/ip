@@ -120,17 +120,15 @@ public class Command {
             return msg;
         }
         String wordToFind = splitUserchoice[1];
-        List<Task> taskFound = new ArrayList<>();
-        for (Task task : listItems) {
-            if (task.toString().contains(wordToFind)) {
-                taskFound.add(task);
-            }
-        }
 
-        if (taskFound.isEmpty()) {
+        List<Task> foundTasks = listItems.stream()
+                .filter(task -> task.toString().contains(wordToFind))
+                .toList();
+
+        if (foundTasks.isEmpty()) {
             msg = ui.getContent("I cannot find any task that fulfill your requirement");
         } else {
-            msg = ui.getContent(taskFound);
+            msg = ui.getContent(foundTasks);
         }
         return msg;
     }
