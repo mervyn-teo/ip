@@ -13,5 +13,7 @@ public enum CommandType {
     DEADLINE,
     DELETE,
     FIND,
-    UNKNOWN
+    UNKNOWN,
+    TAG,
+    UNTAG,
 }

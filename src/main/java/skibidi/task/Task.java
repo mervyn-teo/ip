@@ -5,6 +5,10 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.concurrent.atomic.AtomicInteger;
+
 /**
  * An abstract base class for representing a general task.
  * <p>
@@ -29,6 +33,7 @@ public abstract class Task {
     protected String taskType;
     private boolean isDone;
     private String taskName;
+    private ArrayList<Tag> tags;
 
     /**
      * Default constructor.
@@ -43,9 +48,14 @@ public abstract class Task {
      *
      * @param taskName The name or description of the task.
      */
-    public Task(String taskName) {
+    public Task(String taskName, Tag ... tags) {
         this.taskName = taskName;
         this.isDone = false;
+        if (tags != null) {
+            this.tags = new ArrayList<Tag>(Arrays.asList(tags));
+        } else {
+            this.tags = new ArrayList<>();
+        }
     }
 
     /**
@@ -101,7 +111,24 @@ public abstract class Task {
      */
     @Override
     public String toString() {
-        return getTaskType() + getIsDone() + " " + getTask();
+        String ret = String.format("%s%s %s", getTaskType(), getIsDone(), getTask());
+
+        return listTags(ret);
+    }
+
+    String listTags(String ret) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(ret);
+        if (!getTags().isEmpty()) {
+            sb.append(System.lineSeparator()).append("    Tags:");
+            AtomicInteger tagIndex = new AtomicInteger(1);
+            getTags().forEach(tag -> {
+                sb.append("\n        ").append(tagIndex.get()).append(": ").append(tag.toString());
+                tagIndex.getAndIncrement();
+            });
+            sb.append(System.lineSeparator());
+        }
+        return sb.toString();
     }
 
     /**
@@ -113,4 +140,13 @@ public abstract class Task {
     public boolean isDone() {
         return this.isDone;
     }
+
+    public ArrayList<Tag> getTags() {
+        return this.tags;
+    }
+
+    public void addTag(Tag tag) {
+        this.tags.add(tag);
+    }
+
 }

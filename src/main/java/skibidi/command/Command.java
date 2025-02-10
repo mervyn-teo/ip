@@ -2,14 +2,10 @@ package skibidi.command;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
-import java.util.ArrayList;
 import java.util.List;
 
 import skibidi.storage.Storage;
-import skibidi.task.Deadline;
-import skibidi.task.Event;
-import skibidi.task.Task;
-import skibidi.task.ToDo;
+import skibidi.task.*;
 import skibidi.ui.Messages;
 import skibidi.ui.UI;
 
@@ -67,48 +63,94 @@ public class Command {
 
             String[] splitUserchoice = userChoice.split(" ", 2);
             switch (userChoiceEnum) {
-            case BYE: {
-                msg = bye();
-                break;
-            }
-            case LIST: {
-                msg = list();
-                break;
-            }
-            case MARK: {
-                msg = markDone(splitUserchoice);
-                break;
-            }
-            case UNMARK: {
-                msg = markUndone(splitUserchoice);
-                break;
-            }
-            case TODO: {
-                msg = addTodo(splitUserchoice);
-                break;
-            }
-            case EVENT: {
-                msg = addEvent(splitUserchoice);
-                break;
-            }
-            case DEADLINE: {
-                msg = addDeadline(splitUserchoice);
-                break;
-            }
-            case DELETE: {
-                msg = deleteTask(splitUserchoice);
-                break;
-            }
-            case FIND: {
-                msg = findTask(splitUserchoice);
-                break;
-            }
-            default: {
-                msg = defaultBehaviour();
-            }
+                case BYE: {
+                    msg = bye();
+                    break;
+                }
+                case LIST: {
+                    msg = list();
+                    break;
+                }
+                case MARK: {
+                    msg = markDone(splitUserchoice);
+                    break;
+                }
+                case UNMARK: {
+                    msg = markUndone(splitUserchoice);
+                    break;
+                }
+                case TODO: {
+                    msg = addTodo(splitUserchoice);
+                    break;
+                }
+                case EVENT: {
+                    msg = addEvent(splitUserchoice);
+                    break;
+                }
+                case DEADLINE: {
+                    msg = addDeadline(splitUserchoice);
+                    break;
+                }
+                case DELETE: {
+                    msg = deleteTask(splitUserchoice);
+                    break;
+                }
+                case FIND: {
+                    msg = findTask(splitUserchoice);
+                    break;
+                }
+                case TAG: {
+                    msg = addTag(splitUserchoice);
+                    break;
+                }
+                case UNTAG: {
+                    msg = removeTag(splitUserchoice);
+                    break;
+                }
+                default: {
+                    msg = defaultBehaviour();
+                }
             }
         }
         return msg;
+    }
+
+    private String removeTag(String[] splitUserchoice) {
+        //untag [task number] [tag]
+        if (splitUserchoice.length != 2) {
+            return Messages.CONFUSED;
+        } else {
+            String[] splitted = splitUserchoice[1].split(" ");
+
+            if (splitted.length != 2) {
+                return Messages.DOUBLE_CHECK;
+            } else {
+                int index = Integer.parseInt(splitted[0]) - 1;
+                String tag = splitted[1];
+                listItems.remove(index);
+                storage.saveList(listItems);
+                return String.format("Removed tag %s", tag);
+            }
+        }
+    }
+
+    private String addTag(String[] splitUserchoice) {
+        // tag [task number] [tag]
+        if (splitUserchoice.length != 2) {
+            return Messages.CONFUSED;
+        } else {
+            String[] splitted = splitUserchoice[1].split(" ");
+
+            if (splitted.length != 2) {
+                return Messages.DOUBLE_CHECK;
+            } else {
+                int index = Integer.parseInt(splitted[0]) - 1;
+                String tag = splitted[1];
+                listItems.get(index).addTag(new Tag(tag));
+                storage.saveList(listItems);
+                return String.format("Added tag %s", tag);
+            }
+        }
     }
 
     /**

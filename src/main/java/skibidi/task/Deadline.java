@@ -35,8 +35,8 @@ public class Deadline extends Task {
      * @param taskName the name of the task
      * @param deadline the deadline for the task, as a {@code LocalDate}
      */
-    public Deadline(String taskName, LocalDate deadline) {
-        super(taskName);
+    public Deadline(String taskName, LocalDate deadline, Tag ... tags) {
+        super(taskName, tags);
         super.taskType = "D";
         this.deadline = deadline;
     }
@@ -52,8 +52,10 @@ public class Deadline extends Task {
     @Override
     public String toString() {
         DateTimeFormatter df = new DateTimeFormatterBuilder().appendPattern("dd/MMM/yyyy").toFormatter();
-        return super.getTaskType() + super.getIsDone() + " " + super.getTask()
-                + "(by: " + this.deadline.format(df) + ")";
+
+        String ret = String.format("%s%s %s(by: %s)",
+                super.getTaskType(), super.getIsDone(), super.getTask(), this.deadline.format(df));
+        return super.listTags(ret);
     }
 
 

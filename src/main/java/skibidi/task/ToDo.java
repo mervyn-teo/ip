@@ -18,8 +18,8 @@ public class ToDo extends Task {
      *
      * @param taskName The name or description of the task.
      */
-    public ToDo(String taskName) {
-        super(taskName);
+    public ToDo(String taskName, Tag ... tags) {
+        super(taskName, tags);
         super.taskType = "T";
     }
 }

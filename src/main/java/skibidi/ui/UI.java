@@ -36,7 +36,7 @@ public class UI {
         StringBuilder ret = new StringBuilder();
         int i = 1;
         for (T s : content) {
-            ret.append(i).append(". ").append(s).append("\n");
+            ret.append(i).append(". ").append(s.toString()).append("\n");
             i++;
         }
         return ret.toString();

@@ -3,6 +3,10 @@ package skibidi.task;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Optional;
+import java.util.stream.Stream;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -34,8 +38,8 @@ public class Event extends Task {
      * @param from The starting date of the event.
      * @param to The ending date of the event.
      */
-    public Event(String taskName, LocalDate from, LocalDate to) {
-        super(taskName);
+    public Event(String taskName, LocalDate from, LocalDate to, Tag ... tags) {
+        super(taskName, tags);
         this.from = from;
         this.to = to;
         super.taskType = "E";
@@ -50,8 +54,12 @@ public class Event extends Task {
     @Override
     public String toString() {
         DateTimeFormatter df = new DateTimeFormatterBuilder().appendPattern("dd/MM/yyyy").toFormatter();
-        return super.getTaskType() + super.getIsDone() + " " + super.getTask()
-                + "(from: " + this.from.format(df) + " to: " + this.to.format(df) + ")";
+
+        String ret = String.format("%s%s %s (from: %s to: %s)",
+                super.getTaskType(), super.getIsDone(), super.getTask(),
+                this.from.format(df), this.to.format(df));
+
+        return super.listTags(ret);
     }
 
     /**
