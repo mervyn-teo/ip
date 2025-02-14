@@ -1,11 +1,16 @@
 package skibidi.gui;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
+import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
+import javafx.util.Duration;
 import skibidi.command.Command;
 import skibidi.storage.Storage;
 import skibidi.task.Task;
@@ -36,7 +41,7 @@ public class MainWindow extends AnchorPane {
 
     @FXML
     public void initialize() {
-        scrollPane.vvalueProperty().bind(dialogContainer.heightProperty());
+//        scrollPane.vvalueProperty().bind(dialogContainer.heightProperty());
         dialogContainer.getChildren().addAll(DialogBox.getDialogBox(Messages.GREET, DialogBox.dialogType.SKIBIDI));
     }
 
@@ -48,6 +53,7 @@ public class MainWindow extends AnchorPane {
         if (userInput.getText().equalsIgnoreCase("bye")) {
             System.exit(0);
         }
+        Platform.runLater(() -> scrollPane.setVvalue(1.0));
         userInput.clear();
     }
 
