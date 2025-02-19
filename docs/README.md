@@ -1,30 +1,94 @@
-# Duke User Guide
+# Skibidi User Guide
+![img.png](UI.png)
 
-// Update the title above to match the actual product name
+SKIBIDI my fellow humans :toilet:. Have You ever wanted to have a personalised task manager chatbot?
 
-// Product screenshot goes here
+Meet Skibidi -- A skibidi toilet :toilet: inspired fun chatbot that fulfills your task managing needs!
 
-// Product intro goes here
+## Adding todos
+
+Using `todo [item]` to add an todo item to the item list.
+
+Example: `todo buy milk`
+
+Output:
+
+![img.png](todo.png)
 
 ## Adding deadlines
 
-// Describe the action and its outcome.
+Using `dealine [item] /by YYYY-MM-DD` to add a deadline item to the item list.
 
-// Give examples of usage
+Example: `deadline dinner /by 2025-12-12`
 
-Example: `keyword (optional arguments)`
+Output:
 
-// A description of the expected outcome goes here
+![img.png](deadline.png)
 
-```
-expected output
-```
+## Adding events
 
-## Feature ABC
+Using `event [item] /from YYYY-MM-DD /to YYYY-MM-DD` to add an event item to the item list.
 
-// Feature details
+Example: `event save the earth /from 2000-01-01 /to 2111-11-11`
 
+Output:
 
-## Feature XYZ
+![img.png](event.png)
 
-// Feature details
+## Listing existing items 
+
+Using `list` to list out all items in item list.
+
+Output:
+
+![img.png](list.png)
+
+## Delete items
+
+Using `delete [item index]` to remove an item from the item list.
+
+Example: `delete 1`
+
+Output:
+
+![img.png](delete.png)
+
+## Mark items
+
+Using `mark [item index]` to mark an item to the item list.
+
+Example: `mark 1`
+
+Output:
+
+mark.png)
+
+## Unmark items
+
+Using `unmark [item index]` to unmark an item to the item list.
+
+Example: `unmark 1`
+
+Output:
+
+![img.png](unmark.png)
+
+## Adding tags to items
+
+Using `tag [item index] [tag]` to add a tag to an item in the item list.
+
+Example: `tag 1 whole`
+
+Output:
+
+![img.png](tag.png)
+
+## Removing tags from items
+
+Using `untag [item index] [tag index]` to add a tag to an item in the item list.
+
+Example: `unmark 1`
+
+Output:
+
+![untag.png](untag.png)
