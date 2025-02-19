@@ -39,7 +39,6 @@ public class Skibidi {
      * It delegates the command processing to the {@code Command} class.
      */
     public void run() {
-//        ui.printContent(Messages.GREET);
         Scanner in = new Scanner(System.in);
         while (true) {
             String userChoice = in.nextLine();
@@ -49,7 +48,7 @@ public class Skibidi {
     }
 
     /**
-     * Main method of the application. Initializes dependencies and starts the application.
+     * Initializes dependencies and starts the application.
      *
      * @param args Command-line arguments (not used in this application).
      */
