@@ -1,7 +1,7 @@
 # Skibidi User Guide
 
 <p align="center">   
-  <img src="UI.png" alt="Alt Text" style="width:30%; height:auto; centered:true;"> 
+  <img src="Ui.png" alt="Alt Text" style="width:30%; height:auto; centered:true;"> 
 </p> 
 
 SKIBIDI my fellow humans :toilet:. Have You ever wanted to have a personalised task manager chatbot?
