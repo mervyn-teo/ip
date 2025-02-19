@@ -51,7 +51,7 @@ public class Deadline extends Task {
      */
     @Override
     public String toString() {
-        DateTimeFormatter df = new DateTimeFormatterBuilder().appendPattern("dd/MMM/yyyy").toFormatter();
+        DateTimeFormatter df = new DateTimeFormatterBuilder().appendPattern("dd/MM/yyyy").toFormatter();
 
         String ret = String.format("%s%s %s(by: %s)",
                 super.getTaskType(), super.getIsDone(), super.getTask(), this.deadline.format(df));

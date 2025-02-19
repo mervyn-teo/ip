@@ -28,6 +28,6 @@ public class Main extends Application {
         } catch (IOException e) {
             logger.log(Level.SEVERE, e.getMessage());
         }
-    }
+}
 }
 
