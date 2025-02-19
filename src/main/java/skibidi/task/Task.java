@@ -1,9 +1,6 @@
 package skibidi.task;
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonSubTypes;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -31,6 +28,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public abstract class Task {
     protected String taskType;
+    @JsonProperty
     private boolean isDone;
     private String taskName;
     private ArrayList<Tag> tags;
