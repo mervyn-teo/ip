@@ -1,5 +1,8 @@
 # Skibidi User Guide
-![img.png](UI.png)
+
+<p align="center">   
+  <img src="UI.png" alt="Alt Text" style="width:30%; height:auto; centered:true;"> 
+</p> 
 
 SKIBIDI my fellow humans :toilet:. Have You ever wanted to have a personalised task manager chatbot?
 
@@ -13,7 +16,9 @@ Example: `todo buy milk`
 
 Output:
 
-![img.png](todo.png)
+<p align="center">   
+  <img src="todo.png" alt="Alt Text" style="width:30%; height:auto;">
+</p>
 
 ## Adding deadlines
 
@@ -23,7 +28,9 @@ Example: `deadline dinner /by 2025-12-12`
 
 Output:
 
-![img.png](deadline.png)
+<p align="center">   
+  <img src="deadline.png" alt="Alt Text" style="width:30%; height:auto;">
+</p>
 
 ## Adding events
 
@@ -33,7 +40,9 @@ Example: `event save the earth /from 2000-01-01 /to 2111-11-11`
 
 Output:
 
-![img.png](event.png)
+<p align="center">   
+  <img src="event.png" alt="Alt Text" style="width:30%; height:auto;">
+</p>
 
 ## Listing existing items 
 
@@ -41,7 +50,9 @@ Using `list` to list out all items in item list.
 
 Output:
 
-![img.png](list.png)
+<p align="center">   
+  <img src="list.png" alt="Alt Text" style="width:30%; height:auto;">
+</p>
 
 ## Delete items
 
@@ -51,7 +62,9 @@ Example: `delete 1`
 
 Output:
 
-![img.png](delete.png)
+<p align="center">   
+  <img src="delete.png" alt="Alt Text" style="width:30%; height:auto;">
+</p>
 
 ## Mark items
 
@@ -61,7 +74,9 @@ Example: `mark 1`
 
 Output:
 
-mark.png)
+<p align="center">   
+  <img src="mark.png" alt="Alt Text" style="width:30%; height:auto;">
+</p>
 
 ## Unmark items
 
@@ -71,7 +86,9 @@ Example: `unmark 1`
 
 Output:
 
-![img.png](unmark.png)
+<p align="center">   
+  <img src="unmark.png" alt="Alt Text" style="width:30%; height:auto;">
+</p>
 
 ## Adding tags to items
 
@@ -81,14 +98,18 @@ Example: `tag 1 whole`
 
 Output:
 
-![img.png](tag.png)
-
+<p align="center">   
+  <img src="tag.png" alt="Alt Text" style="width:30%; height:auto;">
+</p>
+  
 ## Removing tags from items
 
 Using `untag [item index] [tag index]` to add a tag to an item in the item list.
 
-Example: `unmark 1`
+Example: `untag 1 1`
 
 Output:
 
-![untag.png](untag.png)
+<p align="center">   
+  <img src="untag.png" alt="Alt Text" style="width:30%; height:auto;">
+</p>
