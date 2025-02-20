@@ -44,82 +44,70 @@ class CommandTest {
 
     @Test
     void emptyCommand() {
-        command.processCommand("");
-        assertEquals("%s\r\n     %s\r\n%s\r\n"
-                .formatted(Messages.SPACER, Messages.EMPTY_COMMAND, Messages.SPACER), outContent.toString());
+        String msg = command.processCommand("");
+        assertEquals(Messages.EMPTY_COMMAND + "\n", msg);
     }
 
     @Test
     void listEmpty() {
-        command.processCommand("LIST");
-        assertEquals("%s\r\n     %s\r\n%s\r\n"
-                .formatted(Messages.SPACER, Messages.EMPTY_LIST, Messages.SPACER), outContent.toString());
+        String msg = command.processCommand("list");
+        assertEquals(Messages.EMPTY_LIST + "\n", msg);
     }
 
     @Test
     void listNonEmpty() {
         listItems.add(new ToDo("Test task"));
-        command.processCommand("LIST");
-        assertEquals("%s\r\n     1. %s\r\n%s\r\n"
-                .formatted(Messages.SPACER, listItems.get(0), Messages.SPACER), outContent.toString());
+        String msg = command.processCommand("LIST");
+        assertEquals("1. " + listItems.get(0) + "\n", msg);
     }
 
     @Test
     void addTodoValid() {
-        command.processCommand("TODO Read a book");
+        String msg = command.processCommand("TODO Read a book");
         assertEquals(1, listItems.size());
         assertTrue(listItems.get(0) instanceof ToDo);
-        assertEquals("%s\r\n     %s\r\n     there are 1 tasks in the list now\r\n%s\r\n"
-                .formatted(
-                        Messages.SPACER, "added: " + listItems.get(0), Messages.SPACER), outContent.toString());
+        assertEquals("added: " + listItems.get(0) + "\nthere are 1 tasks in the list now", msg);
     }
 
     @Test
     void addTodoEmptyDes() {
-        command.processCommand("TODO ");
-        assertEquals("%s\r\n     %s\r\n%s\r\n"
-                .formatted(Messages.SPACER, Messages.EMPTY_TODO, Messages.SPACER), outContent.toString());
+        String msg = command.processCommand("TODO ");
+        assertEquals(Messages.EMPTY_TODO + "\n", msg);
         assertTrue(listItems.isEmpty());
     }
 
     @Test
     void addEventValid() {
-        command.processCommand("EVENT Meeting /from 2023-10-01 /to 2023-10-02");
+        String msg = command.processCommand("EVENT Meeting /from 2023-10-01 /to 2023-10-02");
         assertEquals(1, listItems.size());
         assertTrue(listItems.get(0) instanceof Event);
         Event event = (Event) listItems.get(0);
         assertEquals(LocalDate.of(2023, 10, 1), event.getStartDate());
         assertEquals(LocalDate.of(2023, 10, 2), event.getEndDate());
-        assertEquals("%s\r\n     %s\r\n     there are 1 tasks in the list now\r\n%s\r\n"
-                .formatted(
-                        Messages.SPACER, "added: " + listItems.get(0), Messages.SPACER), outContent.toString());
+        assertEquals("added: " + listItems.get(0) + "\nthere are 1 tasks in the list now", msg);
     }
 
     @Test
     void addEventInvalidDates() {
-        command.processCommand("EVENT Meeting /from 2023-10-02 /to 2023-10-01");
-        assertEquals("%s\r\n     %s\r\n%s\r\n"
-                .formatted(Messages.SPACER, Messages.DATE_CONFLICT, Messages.SPACER), outContent.toString());
+        String msg = command.processCommand("EVENT Meeting /from 2023-10-02 /to 2023-10-01");
+        assertEquals(Messages.DATE_CONFLICT + "\n", msg);
         assertTrue(listItems.isEmpty());
     }
 
     @Test
     void addDeadlineValid() {
-        command.processCommand("DEADLINE Meeting /by 2023-10-01");
+        String msg = command.processCommand("DEADLINE Meeting /by 2023-10-01");
         assertEquals(1, listItems.size());
         assertTrue(listItems.get(0) instanceof Deadline);
         Deadline deadline = (Deadline) listItems.get(0);
         assertEquals(LocalDate.of(2023, 10, 1), deadline.getDeadline());
-        assertEquals("%s\r\n     %s\r\n     there are 1 tasks in the list now\r\n%s\r\n"
-                .formatted(
-                        Messages.SPACER, "added: " + listItems.get(0), Messages.SPACER), outContent.toString());
+        assertEquals("added: " + listItems.get(0) + "\nthere are 1 tasks in the list now", msg);
     }
 
     @Test
     void addDeadlineInvalidDates() {
-        command.processCommand("EVENT Meeting /by 2023-13-02");
-        assertEquals("%s\r\n     %s\r\n%s\r\n"
-                .formatted(Messages.SPACER, Messages.DOUBLE_CHECK, Messages.SPACER), outContent.toString());
+        String msg = command.processCommand("EVENT Meeting /by 2023-13-02");
+        assertEquals(Messages.DOUBLE_CHECK + "\n",msg);
         assertTrue(listItems.isEmpty());
     }
 
@@ -128,18 +116,16 @@ class CommandTest {
         ToDo task = new ToDo("Test task");
         listItems.add(task);
 
-        command.processCommand("MARK 1");
+        String msg = command.processCommand("MARK 1");
 
         assertTrue(task.isDone());
-        assertEquals("%s\r\n     Yes this is marked as done skibidi yes yes\r\n     %s\r\n%s\r\n"
-                .formatted(Messages.SPACER, listItems.get(0), Messages.SPACER), outContent.toString());
+        assertEquals("Yes this is marked as done skibidi yes yes\n" + listItems.get(0) + "\n", msg);
     }
 
     @Test
     void markDoneInvalidIndex() {
-        command.processCommand("MARK 1");
-        assertEquals("%s\r\n     %s\r\n%s\r\n"
-                .formatted(Messages.SPACER, Messages.OUT_OF_BOUNDS, Messages.SPACER), outContent.toString());
+        String msg = command.processCommand("MARK 1");
+        assertEquals(Messages.OUT_OF_BOUNDS + "\n", msg);
     }
 
     @Test
@@ -147,18 +133,16 @@ class CommandTest {
         ToDo task = new ToDo("Test task");
         listItems.add(task);
 
-        command.processCommand("DELETE 1");
+        String msg = command.processCommand("DELETE 1");
 
         assertTrue(listItems.isEmpty());
-        assertEquals("%s\r\n     %s\r\n     there are 0 tasks in the list now\r\n%s\r\n"
-                .formatted(Messages.SPACER, "removed: " + task, Messages.SPACER), outContent.toString());
+        assertEquals("removed: " + task + "\nthere are 0 tasks in the list now", msg);
     }
 
     @Test
     void invalidCommand() {
-        command.processCommand("INVALID");
-        assertEquals("%s\r\n     %s\r\n%s\r\n"
-                .formatted(Messages.SPACER, Messages.CONFUSED, Messages.SPACER), outContent.toString());
+        String msg = command.processCommand("INVALID");
+        assertEquals(Messages.CONFUSED + "\n", msg);
 
     }
 

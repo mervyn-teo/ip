@@ -34,7 +34,7 @@ public class Skibidi {
     }
 
     /**
-     * Starts the Skibidi application. It greets the user, then continuously listens
+     * Starts the Skibidi application. It continuously listens
      * for user commands to manage tasks until terminated.
      * It delegates the command processing to the {@code Command} class.
      */
